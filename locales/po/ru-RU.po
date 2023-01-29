@@ -1,0 +1,784 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: developers@cacti.net\n"
+"POT-Creation-Date: 2023-01-28 12:56-0500\n"
+"PO-Revision-Date: 2022-09-16 13:04+0000\n"
+"Last-Translator: Anton Zhuravlev <baka109g@gmail.com>\n"
+"Language-Team: Russian <http://translate.cacti.net/projects/cacti/webseer/ru/>\n"
+"Language: ru-RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.8.1\n"
+
+#: includes/arrays.php:93 webseer_servers.php:636
+#, php-format
+msgid "%d Minute"
+msgstr "%d Минута"
+
+#: includes/arrays.php:94 includes/arrays.php:95 includes/arrays.php:96
+#: includes/arrays.php:97 includes/arrays.php:98 includes/arrays.php:99
+#: includes/arrays.php:100 includes/arrays.php:101 includes/arrays.php:102
+#: webseer_servers.php:636
+#, php-format
+msgid "%d Minutes"
+msgstr "%d Минут"
+
+#: includes/arrays.php:106 includes/arrays.php:107 includes/arrays.php:108
+#: includes/arrays.php:109 includes/arrays.php:110 includes/arrays.php:111
+#: includes/arrays.php:112 includes/arrays.php:113 webseer_servers.php:636
+#, fuzzy, php-format
+msgid "%d Seconds"
+msgstr "<ph id=\"mtc_1\" equiv-text=\"base64:JWQ=\"/> секунд"
+
+#: includes/arrays.php:141 includes/arrays.php:145 includes/arrays.php:152
+msgid "Delete"
+msgstr "Удалить"
+
+#: includes/arrays.php:146 includes/arrays.php:153
+msgid "Disable"
+msgstr "Выключить"
+
+#: includes/arrays.php:147 includes/arrays.php:154
+msgid "Enable"
+msgstr "Включить"
+
+#: includes/arrays.php:148
+msgid "Duplicate"
+msgstr "Дублировать"
+
+#: includes/arrays.php:162 includes/arrays.php:231 webseer.php:615
+#: webseer_proxies.php:273 webseer_servers.php:395
+msgid "Name"
+msgstr "Имя"
+
+#: includes/arrays.php:163
+#, fuzzy
+msgid "A Useful Name for this Proxy."
+msgstr "Полезное имя для этого прокси."
+
+#: includes/arrays.php:167
+msgid "New Proxy"
+msgstr "Новый прокси"
+
+#: includes/arrays.php:171 webseer_proxies.php:277
+msgid "Hostname"
+msgstr "Имя хоста"
+
+#: includes/arrays.php:172
+#, fuzzy
+msgid "The Proxy Hostname."
+msgstr "Имя хоста прокси."
+
+#: includes/arrays.php:180
+#, fuzzy
+msgid "HTTP Port"
+msgstr "HTTP код"
+
+#: includes/arrays.php:181
+#, fuzzy
+msgid "The HTTP Proxy Port."
+msgstr "Порт прокси-сервера HTTP."
+
+#: includes/arrays.php:189
+#, fuzzy
+msgid "HTTPS Port"
+msgstr "HTTP код"
+
+#: includes/arrays.php:190
+#, fuzzy
+msgid "The HTTPS Proxy Port."
+msgstr "Порт прокси-сервера HTTPS."
+
+#: includes/arrays.php:198
+msgid "User Name"
+msgstr "Имя Пользователя"
+
+#: includes/arrays.php:199
+#, fuzzy
+msgid "The user to use to authenticate with the Proxy if any."
+msgstr "Пользователь, который будет использоваться для аутентификации через прокси, если таковой имеется."
+
+#: includes/arrays.php:207
+msgid "Password"
+msgstr "Пароль"
+
+#: includes/arrays.php:208
+#, fuzzy
+msgid "The user password to use to authenticate with the Proxy if any."
+msgstr "Пароль пользователя для аутентификации через прокси, если таковой имеется."
+
+#: includes/arrays.php:227 includes/arrays.php:287
+msgid "General Settings"
+msgstr "Основные Настройки"
+
+#: includes/arrays.php:232
+#, fuzzy
+msgid "Display Name of this server"
+msgstr "Отображаемое имя этого сервера"
+
+#: includes/arrays.php:238 webseer_servers.php:158 webseer_servers.php:424
+#, fuzzy
+msgid "Enable Server"
+msgid_plural "Enable Servers"
+msgstr[0] "Включить сервер"
+msgstr[1] "Включить сервер"
+msgstr[2] "Включить сервер"
+
+#: includes/arrays.php:239
+#, fuzzy
+msgid "Uncheck this box to disabled this server from checking urls."
+msgstr "Снимите этот флажок, чтобы отключить этот сервер от проверки urls."
+
+#: includes/arrays.php:245
+#, fuzzy
+msgid "Is this server the local server?"
+msgstr "Это локальный сервер?"
+
+#: includes/arrays.php:246
+#, fuzzy
+msgid "Check this box if the current server you are connected to is this entry."
+msgstr "Установите этот флажок, если текущим сервером, к которому вы подключены, является именно эта запись."
+
+#: includes/arrays.php:252
+#, fuzzy
+msgid "Master Server"
+msgstr "Главный сервер"
+
+#: includes/arrays.php:253
+#, fuzzy
+msgid "Sets this server to the Master server.  The Master server handles all Email operations"
+msgstr "Устанавливает этот сервер на главный сервер.  Главный сервер обрабатывает все операции с электронной почтой."
+
+#: includes/arrays.php:259 includes/arrays.php:313 webseer_servers.php:396
+msgid "IP Address"
+msgstr "IP адрес"
+
+#: includes/arrays.php:260
+#, fuzzy
+msgid "IP Address to connect to this server"
+msgstr "IP-адрес для подключения к этому серверу"
+
+#: includes/arrays.php:266 includes/arrays.php:305 webseer.php:473
+#: webseer_servers.php:291
+msgid "URL"
+msgstr "URL"
+
+#: includes/arrays.php:267
+#, fuzzy
+msgid "This is the URL to connect to remote.php on this server."
+msgstr "Это URL-адрес для подключения к remote.php на этом сервере."
+
+#: includes/arrays.php:273 webseer_servers.php:398
+msgid "Location"
+msgstr "Местоположение"
+
+#: includes/arrays.php:274
+#, fuzzy
+msgid "Location of this server"
+msgstr "Местоположение этого сервера"
+
+#: includes/arrays.php:291
+#, fuzzy
+msgid "Service Check Name"
+msgstr "Имя проверки сервиса"
+
+#: includes/arrays.php:292
+#, fuzzy
+msgid "The name that is displayed for this Service Check, and is included in any Alert notifications."
+msgstr "Имя, отображаемое для данной проверки обслуживания, и включенное в любые уведомления об Алерт-уведомлениях."
+
+#: includes/arrays.php:298
+#, fuzzy
+msgid "Enable Service Check"
+msgstr "Включить проверку обслуживания"
+
+#: includes/arrays.php:299
+#, fuzzy
+msgid "Uncheck this box to disabled this url from being checked."
+msgstr "Снимите этот флажок, чтобы отключить этот урл от проверки."
+
+#: includes/arrays.php:306
+#, fuzzy
+msgid "The URL to Monitor"
+msgstr "URL-адрес для мониторинга"
+
+#: includes/arrays.php:314
+#, fuzzy
+msgid "Enter an IP address to connect to.  Leaving blank will use DNS Resolution instead."
+msgstr "Введите IP-адрес для подключения.  Если оставить пустым, то вместо этого будет использоваться DNS разрешение."
+
+#: includes/arrays.php:321
+msgid "Proxy Server"
+msgstr "Proxy Server"
+
+#: includes/arrays.php:322
+#, fuzzy
+msgid "If this connection text requires a proxy, select it here.  Otherwise choose 'None'."
+msgstr "Если для этого текста подключения требуется прокси, выберите его здесь. В противном случае выберите «Нет»."
+
+#: includes/arrays.php:324 webseer.php:357
+msgid "None"
+msgstr "Нет"
+
+#: includes/arrays.php:329 webseer.php:474 webseer.php:630
+msgid "Compression"
+msgstr "Сжатие"
+
+#: includes/arrays.php:333
+#, fuzzy
+msgid "What compression does the server require?  Most servers should not need this, but some will not redirect properly without it."
+msgstr "Какое сжатие требуется серверу? Большинству серверов это не нужно, но некоторые без него не будут правильно перенаправлять."
+
+#: includes/arrays.php:338
+#, fuzzy
+msgid "Available Checks"
+msgstr "Доступные чеки"
+
+#: includes/arrays.php:342
+#, fuzzy
+msgid "Requires Authentication"
+msgstr "Требуется аутентификация"
+
+#: includes/arrays.php:343
+#, fuzzy
+msgid "Check this box if the site will normally return a 401 Error as it requires a username and password."
+msgstr "Установите этот флажок, если сайт обычно возвращает ошибку 401, так как для этого требуется имя пользователя и пароль."
+
+#: includes/arrays.php:349
+#, fuzzy
+msgid "Check Certificate"
+msgstr "Проверьте сертификат"
+
+#: includes/arrays.php:350
+#, fuzzy
+msgid "If using SSL, check this box if you want to validate the certificate. Default on, turn off if you the site uses a self-signed certificate."
+msgstr "Если вы используете SSL, отметьте этот флажок, если хотите проверить сертификат. По умолчанию включено, отключено, если вы используете самоподписной сертификат."
+
+#: includes/arrays.php:356
+#, fuzzy
+msgid "Notification Timing"
+msgstr "Время уведомления"
+
+#: includes/arrays.php:359
+msgid "Trigger"
+msgstr "Триггер"
+
+#: includes/arrays.php:363
+#, fuzzy
+msgid "How many minutes the URL must be down before it will send an alert.  After an alert is sent, in order for a 'Site Recovering' Email to be send, it must also be up this number of minutes."
+msgstr "Сколько минут URL-адрес должен быть опущен, прежде чем будет отправлено предупреждение.  После отправки уведомления для отправки сообщения по электронной почте \"Восстановление сайта\" необходимо также увеличить это количество минут."
+
+#: includes/arrays.php:367
+#, fuzzy
+msgid "Time Out"
+msgstr "Тайм-аут"
+
+#: includes/arrays.php:371
+#, fuzzy
+msgid "How many seconds to allow the page to timeout before reporting it as down."
+msgstr "Сколько секунд, чтобы дать странице время ожидания, прежде чем сообщать о том, что она опущена."
+
+#: includes/arrays.php:376
+#, fuzzy
+msgid "Verification Strings"
+msgstr "Строки проверки"
+
+#: includes/arrays.php:380
+#, fuzzy
+msgid "Response Search String"
+msgstr "Строка поиска ответа"
+
+#: includes/arrays.php:381
+#, fuzzy
+msgid "This is the string to search for in the URL response for a live and working Web Service."
+msgstr "Это строка для поиска в ответе URL-адреса живой и работающей веб-службы."
+
+#: includes/arrays.php:388
+#, fuzzy
+msgid "Response Search String - Maintenance Page"
+msgstr "Строка поиска ответа - страница обслуживания"
+
+#: includes/arrays.php:389
+#, fuzzy
+msgid "This is the string to search for on the Maintenance Page.  The Service Check will check for this string if the above string is not found.  If found, it means that the Web Service is under maintenance."
+msgstr "Это строка для поиска на странице Обслуживание.  Проверка службы проверит наличие этой строки, если она не найдена.  В случае обнаружения это означает, что веб-сервис находится в процессе обслуживания."
+
+#: includes/arrays.php:396
+#, fuzzy
+msgid "Response Search String - Failed"
+msgstr "Строка поиска ответа - Неудачно."
+
+#: includes/arrays.php:397
+#, fuzzy
+msgid "This is the string to search for a known failure in the Web Service response.  The Service Check will only alert if this string is found, ignoring any timeout issues and the search strings above."
+msgstr "Это строка для поиска известной ошибки в ответе веб-службы.  Service Check будет оповещать только в том случае, если эта строка найдена, игнорируя любые проблемы таймаута и поисковые строки, приведенные выше."
+
+#: includes/arrays.php:404
+msgid "Notification Settings"
+msgstr "Настройки уведомлений"
+
+#: includes/arrays.php:407
+#, fuzzy
+msgid "Notify Format"
+msgstr "Уведомить счета"
+
+#: includes/arrays.php:409
+#, fuzzy
+msgid "This is the format to use when sending the notification email"
+msgstr "Это формат, который следует использовать при отправке электронного письма с уведомлением."
+
+#: includes/arrays.php:414
+#, fuzzy
+msgid "Notify accounts"
+msgstr "Уведомить счета"
+
+#: includes/arrays.php:416
+#, fuzzy
+msgid "This is a listing of accounts that will be notified when this website goes down."
+msgstr "Это список учетных записей, которые будут уведомлены, когда этот сайт зайдет вниз."
+
+#: includes/arrays.php:421
+#, fuzzy
+msgid "Extra Alert Emails"
+msgstr "Электронные письма с дополнительными предупреждениями"
+
+#: includes/arrays.php:425
+#, fuzzy
+msgid "You may specify here extra Emails to receive alerts for this URL (comma separated)"
+msgstr "Вы можете указать здесь дополнительные адреса электронной почты для получения оповещений по этому URL-адресу (запятая разделена запятыми)"
+
+#: includes/functions.php:34 webseer.php:678 webseer.php:888
+msgid "Checks"
+msgstr "Проверки"
+
+#: includes/functions.php:35 webseer_servers.php:381 webseer_servers.php:643
+msgid "Servers"
+msgstr "Серверы"
+
+#: includes/functions.php:36 webseer_proxies.php:292 webseer_proxies.php:349
+msgid "Proxies"
+msgstr "Прокси"
+
+#: poller_webseer.php:186
+#, fuzzy
+msgid "Cacti Master"
+msgstr "Какти Мастер"
+
+#: poller_webseer.php:189
+#, fuzzy
+msgid "Cacti Remote Server"
+msgstr "Cacti Remote Server"
+
+#: setup.php:33
+#, fuzzy
+msgid "Web Service Check Admin"
+msgstr "Администратор проверки веб-услуг"
+
+#: setup.php:304
+msgid "Management"
+msgstr "Управление"
+
+#: setup.php:304
+#, fuzzy
+msgid "Web Service Checks"
+msgstr "Проверки веб-служб"
+
+#: setup.php:314
+#, fuzzy
+msgid "WebSeer Service Checks"
+msgstr "Проверки сервиса WebSeer"
+
+#: setup.php:321
+#, fuzzy
+msgid "WebSeer Servers"
+msgstr "Серверы WebSeer"
+
+#: setup.php:328 setup.php:335 setup.php:342
+#, fuzzy
+msgid "Service Check Edit"
+msgstr "Редактирование проверки обслуживания"
+
+#: setup.php:349 setup.php:356 setup.php:363
+#, fuzzy
+msgid "Server Edit"
+msgstr "Редактирование сервера"
+
+#: webseer.php:167
+#, fuzzy
+msgid "Click 'Continue' to Delete the following URL."
+msgid_plural "Click 'Continue' to Delete following URLs."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer.php:172 webseer.php:181 webseer.php:190 webseer.php:199
+#: webseer_proxies.php:108 webseer_servers.php:140 webseer_servers.php:149
+#: webseer_servers.php:158
+msgid "Cancel"
+msgstr "Отмена"
+
+#: webseer.php:172 webseer.php:181 webseer.php:190 webseer.php:199
+#: webseer_proxies.php:108 webseer_servers.php:140 webseer_servers.php:149
+#: webseer_servers.php:158
+msgid "Continue"
+msgstr "Продолжить"
+
+#: webseer.php:172
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete URL"
+msgid_plural "Delete URLs"
+msgstr[0] "Удалить"
+msgstr[1] "Удалить"
+msgstr[2] "Удалить"
+
+#: webseer.php:176
+#, fuzzy
+msgid "Click 'Continue' to Disable the following URL."
+msgid_plural "Click 'Continue' to Disable following URLs."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer.php:181
+#, fuzzy
+#| msgid "Disable"
+msgid "Disable URL"
+msgid_plural "Disable URLs"
+msgstr[0] "Выключить"
+msgstr[1] "Выключить"
+msgstr[2] "Выключить"
+
+#: webseer.php:185
+#, fuzzy
+msgid "Click 'Continue' to Enable the following URL."
+msgid_plural "Click 'Continue' to Enable following URLs."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer.php:190
+#, fuzzy
+#| msgid "Enable"
+msgid "Enable URL"
+msgid_plural "Enable URLs"
+msgstr[0] "Включить"
+msgstr[1] "Включить"
+msgstr[2] "Включить"
+
+#: webseer.php:194
+#, fuzzy
+msgid "Click 'Continue' to Duplicate the following URL."
+msgid_plural "Click 'Continue' to Duplicate following URLs."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer.php:199
+#, fuzzy
+#| msgid "Duplicate"
+msgid "Duplicate URL"
+msgid_plural "Duplicate URLs"
+msgstr[0] "Дублировать"
+msgstr[1] "Дублировать"
+msgstr[2] "Дублировать"
+
+#: webseer.php:312 webseer_servers.php:550
+#, fuzzy, php-format
+msgid "Query [edit: %s]"
+msgstr "Запрос [Редактировать: %s]"
+
+#: webseer.php:314 webseer_servers.php:552
+#, fuzzy
+msgid "Query [new]"
+msgstr "Запрос [новый]"
+
+#: webseer.php:345
+#, fuzzy
+msgid "No Users Selected"
+msgstr "Нет пользователей Выбранные пользователи"
+
+#: webseer.php:347
+#, fuzzy
+msgid "Users Selected"
+msgstr "Пользователи Выбранные"
+
+#: webseer.php:350
+#, fuzzy
+msgid "All Users Selected"
+msgstr "Все выбранные пользователи"
+
+#: webseer.php:356
+msgid "All"
+msgstr "Все"
+
+#: webseer.php:390 webseer.php:853 webseer_proxies.php:343
+msgid "Search"
+msgstr "Поиск"
+
+#: webseer.php:472 webseer_servers.php:290
+msgid "Date"
+msgstr "Дата"
+
+#: webseer.php:475 webseer.php:635 webseer_servers.php:293
+#, fuzzy
+msgid "HTTP Code"
+msgstr "HTTP код"
+
+#: webseer.php:476 webseer.php:645 webseer_servers.php:294
+#, fuzzy
+msgid "DNS"
+msgstr "СЛУЖБА DNS"
+
+#: webseer.php:477 webseer.php:650 webseer_servers.php:295
+msgid "Connect"
+msgstr "Подключить"
+
+#: webseer.php:478 webseer.php:655 webseer_servers.php:296
+msgid "Redirect"
+msgstr "Перенаправление"
+
+#: webseer.php:479 webseer.php:660 webseer_servers.php:297
+msgid "Total"
+msgstr "Всего"
+
+#: webseer.php:480 webseer.php:620
+msgid "Status"
+msgstr "Статус"
+
+#: webseer.php:508 webseer.php:738 webseer_servers.php:320
+msgid "Down"
+msgstr "Вниз"
+
+#: webseer.php:508 webseer.php:738 webseer_servers.php:320
+msgid "Up"
+msgstr "Вверх"
+
+#: webseer.php:513 webseer_servers.php:330
+#, fuzzy
+msgid "No Events in History"
+msgstr "Нет событий в истории"
+
+#: webseer.php:610 webseer_servers.php:394
+msgid "Actions"
+msgstr "Действия"
+
+#: webseer.php:625 webseer.php:741 webseer.php:744 webseer_servers.php:397
+#: webseer_servers.php:624
+msgid "Enabled"
+msgstr "Включенные"
+
+#: webseer.php:640
+msgid "Auth"
+msgstr "Код авторизации"
+
+#: webseer.php:665
+msgid "Timeout"
+msgstr "Пауза"
+
+#: webseer.php:670 webseer_servers.php:399
+msgid "Last Check"
+msgstr "Последняя проверка"
+
+#: webseer.php:703
+msgid "Edit Site"
+msgstr "Редактировать Обьект"
+
+#: webseer.php:708
+#, fuzzy
+msgid "Enable Site"
+msgstr "Включить сервер"
+
+#: webseer.php:712
+#, fuzzy
+msgid "Disable Site"
+msgstr "Выключить"
+
+#: webseer.php:717 webseer_servers.php:433
+msgid "View History"
+msgstr "Посмотреть историю"
+
+#: webseer.php:726
+#, fuzzy, php-format
+msgid "DNS: Server %s - A Record for %s"
+msgstr "DNS Сервер %s - Запись для %s"
+
+#: webseer.php:736
+msgid "N/A"
+msgstr "Н/Д"
+
+#: webseer.php:741 webseer.php:744 webseer_servers.php:624
+msgid "Disabled"
+msgstr "Выключен"
+
+#: webseer.php:743 webseer_servers.php:292
+msgid "Error"
+msgstr "Ошибка"
+
+#: webseer.php:758 webseer_proxies.php:315 webseer_servers.php:450
+#, fuzzy
+msgid "No Servers Found"
+msgstr "Серверы не найдены"
+
+#: webseer.php:844
+#, fuzzy
+msgid "Webseer Site Management"
+msgstr "Управление сайтом Webseer Site Management"
+
+#: webseer.php:859 webseer_servers.php:618
+msgid "State"
+msgstr "Область"
+
+#: webseer.php:863 webseer_servers.php:622
+msgid "Any"
+msgstr "Любой"
+
+#: webseer.php:872 webseer_servers.php:631
+msgid "Refresh"
+msgstr "Обновить"
+
+#: webseer.php:893 webseer_proxies.php:354 webseer_servers.php:648
+msgid "Default"
+msgstr "Стандартно"
+
+#: webseer.php:904 webseer_proxies.php:365
+msgid "Go"
+msgstr "Перейти"
+
+#: webseer.php:905 webseer_proxies.php:366 webseer_servers.php:659
+msgid "Clear"
+msgstr "Очистить"
+
+#: webseer_proxies.php:103
+#, fuzzy
+msgid "Click 'Continue' to delete the following Proxy."
+msgid_plural "Click 'Continue' to delete following Proxies."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer_proxies.php:108
+#, fuzzy
+msgid "Delete Proxy"
+msgid_plural "Delete Proxies"
+msgstr[0] "Удалить"
+msgstr[1] "Удалить"
+msgstr[2] ""
+
+#: webseer_proxies.php:169
+#, fuzzy, php-format
+msgid "Proxy [edit: %s]"
+msgstr "Запрос [Редактировать: %s]"
+
+#: webseer_proxies.php:171
+#, fuzzy
+msgid "Proxy [new]"
+msgstr "Запрос [новый]"
+
+#: webseer_proxies.php:281
+#, fuzzy
+msgid "Ports (http/https)"
+msgstr "Порты (http / https)"
+
+#: webseer_proxies.php:285
+msgid "Username"
+msgstr "Имя Пользователя"
+
+#: webseer_proxies.php:309
+msgid "Not Set"
+msgstr "Не задано"
+
+#: webseer_proxies.php:334
+#, fuzzy
+msgid "Webseer Proxy Management"
+msgstr "Управление сервером Webseer Server Management"
+
+#: webseer_servers.php:135
+#, fuzzy
+msgid "Click 'Continue' to Delete the following Server."
+msgid_plural "Click 'Continue' to Delete following Servers."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer_servers.php:140
+#, fuzzy
+msgid "Delete Server"
+msgid_plural "Delete Servers"
+msgstr[0] "Серверы WebSeer"
+msgstr[1] "Серверы WebSeer"
+msgstr[2] "Серверы WebSeer"
+
+#: webseer_servers.php:144
+#, fuzzy
+msgid "Click 'Continue' to Disable the following Server."
+msgid_plural "Click 'Continue' to Disable following Servers."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer_servers.php:149 webseer_servers.php:428
+#, fuzzy
+msgid "Disable Server"
+msgid_plural "Disable Servers"
+msgstr[0] "Включить сервер"
+msgstr[1] "Включить сервер"
+msgstr[2] "Включить сервер"
+
+#: webseer_servers.php:153
+#, fuzzy
+msgid "Click 'Continue' to Enable the following Server."
+msgid_plural "Click 'Continue' to Enable following Servers."
+msgstr[0] "Нажмите «Продолжить», чтобы удалить следующий прокси."
+msgstr[1] ""
+msgstr[2] ""
+
+#: webseer_servers.php:400
+msgid "Master"
+msgstr "Мастер"
+
+#: webseer_servers.php:401
+#, fuzzy
+msgid "This Host"
+msgstr "Этот хозяин"
+
+#: webseer_servers.php:419
+#, fuzzy
+#| msgid "Edit Site"
+msgid "Edit Server"
+msgstr "Редактировать Обьект"
+
+#: webseer_servers.php:440 webseer_servers.php:443 webseer_servers.php:444
+msgid "No"
+msgstr "Нет"
+
+#: webseer_servers.php:440 webseer_servers.php:443 webseer_servers.php:444
+msgid "Yes"
+msgstr "Да"
+
+#: webseer_servers.php:610
+#, fuzzy
+msgid "Webseer Server Management"
+msgstr "Управление сервером Webseer Server Management"
+
+#: webseer_servers.php:624
+msgid "Triggered"
+msgstr "Просмотренный"
+
+#, fuzzy
+#~ msgid "You must select at least one Proxy."
+#~ msgstr "Вы должны выбрать хотя бы один прокси."
+
+#~ msgid "Return"
+#~ msgstr "Вернуть"
+
+#~ msgid "Sites"
+#~ msgstr "Узлы"

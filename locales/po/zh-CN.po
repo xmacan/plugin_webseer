@@ -1,0 +1,700 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: webseer on cacti 1.1.34\n"
+"Report-Msgid-Bugs-To: developers@cacti.net\n"
+"POT-Creation-Date: 2023-01-28 12:56-0500\n"
+"PO-Revision-Date: 2020-12-14 19:09-0500\n"
+"Last-Translator: tomcat <luis_126@126.com>\n"
+"Language-Team: Chinese (Simplified) <http://translate.cacti.net/projects/cacti/webseer/zh-CN/>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: includes/arrays.php:93 webseer_servers.php:636
+#, php-format
+msgid "%d Minute"
+msgstr "%d 分钟"
+
+#: includes/arrays.php:94 includes/arrays.php:95 includes/arrays.php:96
+#: includes/arrays.php:97 includes/arrays.php:98 includes/arrays.php:99
+#: includes/arrays.php:100 includes/arrays.php:101 includes/arrays.php:102
+#: webseer_servers.php:636
+#, php-format
+msgid "%d Minutes"
+msgstr "%d 分钟"
+
+#: includes/arrays.php:106 includes/arrays.php:107 includes/arrays.php:108
+#: includes/arrays.php:109 includes/arrays.php:110 includes/arrays.php:111
+#: includes/arrays.php:112 includes/arrays.php:113 webseer_servers.php:636
+#, php-format
+msgid "%d Seconds"
+msgstr "%d 秒"
+
+#: includes/arrays.php:141 includes/arrays.php:145 includes/arrays.php:152
+msgid "Delete"
+msgstr "删除"
+
+#: includes/arrays.php:146 includes/arrays.php:153
+msgid "Disable"
+msgstr "禁用"
+
+#: includes/arrays.php:147 includes/arrays.php:154
+msgid "Enable"
+msgstr "启用"
+
+#: includes/arrays.php:148
+msgid "Duplicate"
+msgstr "重复"
+
+#: includes/arrays.php:162 includes/arrays.php:231 webseer.php:615
+#: webseer_proxies.php:273 webseer_servers.php:395
+msgid "Name"
+msgstr "名称"
+
+#: includes/arrays.php:163
+#, fuzzy
+msgid "A Useful Name for this Proxy."
+msgstr "此代理的有用名称。"
+
+#: includes/arrays.php:167
+#, fuzzy
+msgid "New Proxy"
+msgstr "新代理"
+
+#: includes/arrays.php:171 webseer_proxies.php:277
+msgid "Hostname"
+msgstr "主机名"
+
+#: includes/arrays.php:172
+#, fuzzy
+msgid "The Proxy Hostname."
+msgstr "代理主机名。"
+
+#: includes/arrays.php:180
+msgid "HTTP Port"
+msgstr "HTTP 端口"
+
+#: includes/arrays.php:181
+#, fuzzy
+msgid "The HTTP Proxy Port."
+msgstr "HTTP代理端口。"
+
+#: includes/arrays.php:189
+msgid "HTTPS Port"
+msgstr "HTTPs 端口"
+
+#: includes/arrays.php:190
+#, fuzzy
+msgid "The HTTPS Proxy Port."
+msgstr "HTTPS代理端口。"
+
+#: includes/arrays.php:198
+msgid "User Name"
+msgstr "用户名"
+
+#: includes/arrays.php:199
+#, fuzzy
+msgid "The user to use to authenticate with the Proxy if any."
+msgstr "用于通过代理进行身份验证的用户（如果有）。"
+
+#: includes/arrays.php:207
+msgid "Password"
+msgstr "密码"
+
+#: includes/arrays.php:208
+#, fuzzy
+msgid "The user password to use to authenticate with the Proxy if any."
+msgstr "用于通过代理进行身份验证的用户密码（如果有）。"
+
+#: includes/arrays.php:227 includes/arrays.php:287
+msgid "General Settings"
+msgstr "常规设置"
+
+#: includes/arrays.php:232
+msgid "Display Name of this server"
+msgstr "显示此服务器的名称"
+
+#: includes/arrays.php:238 webseer_servers.php:158 webseer_servers.php:424
+#, fuzzy
+#| msgid "Enable Server"
+msgid "Enable Server"
+msgid_plural "Enable Servers"
+msgstr[0] "启用服务器"
+
+#: includes/arrays.php:239
+msgid "Uncheck this box to disabled this server from checking urls."
+msgstr "取消选中此框可禁用此服务器检查网址。"
+
+#: includes/arrays.php:245
+msgid "Is this server the local server?"
+msgstr "这台服务器是本地服务器吗？"
+
+#: includes/arrays.php:246
+msgid "Check this box if the current server you are connected to is this entry."
+msgstr "如果您连接的当前服务器是此条目，请选中此框。"
+
+#: includes/arrays.php:252
+msgid "Master Server"
+msgstr "主服务器"
+
+#: includes/arrays.php:253
+msgid "Sets this server to the Master server.  The Master server handles all Email operations"
+msgstr "将此服务器设置为主服务器。 主服务器处理所有电子邮件操作"
+
+#: includes/arrays.php:259 includes/arrays.php:313 webseer_servers.php:396
+msgid "IP Address"
+msgstr "IP地址"
+
+#: includes/arrays.php:260
+msgid "IP Address to connect to this server"
+msgstr "IP地址连接到此服务器"
+
+#: includes/arrays.php:266 includes/arrays.php:305 webseer.php:473
+#: webseer_servers.php:291
+msgid "URL"
+msgstr "URL"
+
+#: includes/arrays.php:267
+msgid "This is the URL to connect to remote.php on this server."
+msgstr "这是连接到此服务器上的remote.php的URL。"
+
+#: includes/arrays.php:273 webseer_servers.php:398
+msgid "Location"
+msgstr "位置"
+
+#: includes/arrays.php:274
+msgid "Location of this server"
+msgstr "此服务器的位置"
+
+#: includes/arrays.php:291
+msgid "Service Check Name"
+msgstr "服务检查名称"
+
+#: includes/arrays.php:292
+msgid "The name that is displayed for this Service Check, and is included in any Alert notifications."
+msgstr "为此服务检查显示的名称，并且包含在任何警报通知中。"
+
+#: includes/arrays.php:298
+msgid "Enable Service Check"
+msgstr "启用服务检查"
+
+#: includes/arrays.php:299
+msgid "Uncheck this box to disabled this url from being checked."
+msgstr "取消选中此框可禁用此网址进行检查。"
+
+#: includes/arrays.php:306
+msgid "The URL to Monitor"
+msgstr "要监视的网址"
+
+#: includes/arrays.php:314
+msgid "Enter an IP address to connect to.  Leaving blank will use DNS Resolution instead."
+msgstr "输入要连接的IP地址。 留空将使用DNS解析。"
+
+#: includes/arrays.php:321
+msgid "Proxy Server"
+msgstr "代理服务器"
+
+#: includes/arrays.php:322
+#, fuzzy
+msgid "If this connection text requires a proxy, select it here.  Otherwise choose 'None'."
+msgstr "如果此连接文本需要代理，请在此处选择它。否则，选择“无”。"
+
+#: includes/arrays.php:324 webseer.php:357
+msgid "None"
+msgstr "无"
+
+#: includes/arrays.php:329 webseer.php:474 webseer.php:630
+msgid "Compression"
+msgstr "压缩"
+
+#: includes/arrays.php:333
+#, fuzzy
+msgid "What compression does the server require?  Most servers should not need this, but some will not redirect properly without it."
+msgstr "服务器需要什么压缩？大多数服务器不需要此服务器，但是如果没有它，某些服务器将无法正确重定向。"
+
+#: includes/arrays.php:338
+#, fuzzy
+msgid "Available Checks"
+msgstr "可用支票"
+
+#: includes/arrays.php:342
+msgid "Requires Authentication"
+msgstr "需要认证"
+
+#: includes/arrays.php:343
+msgid "Check this box if the site will normally return a 401 Error as it requires a username and password."
+msgstr "如果网站通常会返回401错误，请选中此框，因为它需要用户名和密码。"
+
+#: includes/arrays.php:349
+msgid "Check Certificate"
+msgstr "检查证书"
+
+#: includes/arrays.php:350
+msgid "If using SSL, check this box if you want to validate the certificate. Default on, turn off if you the site uses a self-signed certificate."
+msgstr "如果使用SSL，如果要验证证书，请选中此框。 如果您的网站使用自签名证书，则默认开启。"
+
+#: includes/arrays.php:356
+#, fuzzy
+msgid "Notification Timing"
+msgstr "通知时间"
+
+#: includes/arrays.php:359
+msgid "Trigger"
+msgstr "触发"
+
+#: includes/arrays.php:363
+msgid "How many minutes the URL must be down before it will send an alert.  After an alert is sent, in order for a 'Site Recovering' Email to be send, it must also be up this number of minutes."
+msgstr "在发送警报之前，URL必须关闭多少分钟。 发送提醒后，为了发送“网站恢复”电子邮件，它也必须达到此分钟数。"
+
+#: includes/arrays.php:367
+msgid "Time Out"
+msgstr "超时"
+
+#: includes/arrays.php:371
+msgid "How many seconds to allow the page to timeout before reporting it as down."
+msgstr "在报告为关闭之前允许页面超时多少秒。"
+
+#: includes/arrays.php:376
+#, fuzzy
+msgid "Verification Strings"
+msgstr "验证字符串"
+
+#: includes/arrays.php:380
+msgid "Response Search String"
+msgstr "响应搜索字符串"
+
+#: includes/arrays.php:381
+msgid "This is the string to search for in the URL response for a live and working Web Service."
+msgstr "这是要在实时和正常运行的Web Service的URL响应中搜索的字符串。"
+
+#: includes/arrays.php:388
+msgid "Response Search String - Maintenance Page"
+msgstr "响应搜索字符串 - 维护页面"
+
+#: includes/arrays.php:389
+msgid "This is the string to search for on the Maintenance Page.  The Service Check will check for this string if the above string is not found.  If found, it means that the Web Service is under maintenance."
+msgstr "是在维护页面上搜索的字符串。 如果上述字符串未找到，服务检查将检查此字符串。 如果找到了，这意味着Web服务正在维护中。"
+
+#: includes/arrays.php:396
+msgid "Response Search String - Failed"
+msgstr "响应搜索字符串 - 失败"
+
+#: includes/arrays.php:397
+msgid "This is the string to search for a known failure in the Web Service response.  The Service Check will only alert if this string is found, ignoring any timeout issues and the search strings above."
+msgstr "这是在Web Service响应中搜索已知失败的字符串。 如果找到该字符串，服务检查将只会发出警报，忽略任何超时问题和上述搜索字符串。"
+
+#: includes/arrays.php:404
+msgid "Notification Settings"
+msgstr "通知设置"
+
+#: includes/arrays.php:407
+#, fuzzy
+msgid "Notify Format"
+msgstr "通知帐户"
+
+#: includes/arrays.php:409
+#, fuzzy
+msgid "This is the format to use when sending the notification email"
+msgstr "这是发送通知电子邮件时使用的格式"
+
+#: includes/arrays.php:414
+msgid "Notify accounts"
+msgstr "通知帐户"
+
+#: includes/arrays.php:416
+msgid "This is a listing of accounts that will be notified when this website goes down."
+msgstr "这是本网站出现故障时将通知的帐户列表。"
+
+#: includes/arrays.php:421
+msgid "Extra Alert Emails"
+msgstr "额外提醒电子邮件"
+
+#: includes/arrays.php:425
+msgid "You may specify here extra Emails to receive alerts for this URL (comma separated)"
+msgstr "您可以在此指定额外的电子邮件以接收此URL的警报（以逗号分隔）"
+
+#: includes/functions.php:34 webseer.php:678 webseer.php:888
+msgid "Checks"
+msgstr "检查"
+
+#: includes/functions.php:35 webseer_servers.php:381 webseer_servers.php:643
+msgid "Servers"
+msgstr "服务器"
+
+#: includes/functions.php:36 webseer_proxies.php:292 webseer_proxies.php:349
+msgid "Proxies"
+msgstr "代表权"
+
+#: poller_webseer.php:186
+msgid "Cacti Master"
+msgstr "Cacti 主控"
+
+#: poller_webseer.php:189
+msgid "Cacti Remote Server"
+msgstr "Cacti远程服务器"
+
+#: setup.php:33
+msgid "Web Service Check Admin"
+msgstr "Web服务检查管理员"
+
+#: setup.php:304
+msgid "Management"
+msgstr "管理"
+
+#: setup.php:304
+msgid "Web Service Checks"
+msgstr "Web服务检查"
+
+#: setup.php:314
+msgid "WebSeer Service Checks"
+msgstr "WebSeer服务检查"
+
+#: setup.php:321
+msgid "WebSeer Servers"
+msgstr "WebSeer服务器"
+
+#: setup.php:328 setup.php:335 setup.php:342
+msgid "Service Check Edit"
+msgstr "服务检查编辑"
+
+#: setup.php:349 setup.php:356 setup.php:363
+msgid "Server Edit"
+msgstr "服务器编辑"
+
+#: webseer.php:167
+#, fuzzy
+msgid "Click 'Continue' to Delete the following URL."
+msgid_plural "Click 'Continue' to Delete following URLs."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer.php:172 webseer.php:181 webseer.php:190 webseer.php:199
+#: webseer_proxies.php:108 webseer_servers.php:140 webseer_servers.php:149
+#: webseer_servers.php:158
+msgid "Cancel"
+msgstr "取消"
+
+#: webseer.php:172 webseer.php:181 webseer.php:190 webseer.php:199
+#: webseer_proxies.php:108 webseer_servers.php:140 webseer_servers.php:149
+#: webseer_servers.php:158
+msgid "Continue"
+msgstr "继续"
+
+#: webseer.php:172
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete URL"
+msgid_plural "Delete URLs"
+msgstr[0] "删除"
+
+#: webseer.php:176
+#, fuzzy
+msgid "Click 'Continue' to Disable the following URL."
+msgid_plural "Click 'Continue' to Disable following URLs."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer.php:181
+#, fuzzy
+#| msgid "Disable"
+msgid "Disable URL"
+msgid_plural "Disable URLs"
+msgstr[0] "禁用"
+
+#: webseer.php:185
+#, fuzzy
+msgid "Click 'Continue' to Enable the following URL."
+msgid_plural "Click 'Continue' to Enable following URLs."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer.php:190
+#, fuzzy
+#| msgid "Enable"
+msgid "Enable URL"
+msgid_plural "Enable URLs"
+msgstr[0] "启用"
+
+#: webseer.php:194
+#, fuzzy
+msgid "Click 'Continue' to Duplicate the following URL."
+msgid_plural "Click 'Continue' to Duplicate following URLs."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer.php:199
+#, fuzzy
+#| msgid "Duplicate"
+msgid "Duplicate URL"
+msgid_plural "Duplicate URLs"
+msgstr[0] "重复"
+
+#: webseer.php:312 webseer_servers.php:550
+#, php-format
+msgid "Query [edit: %s]"
+msgstr "查询[编辑：%s]"
+
+#: webseer.php:314 webseer_servers.php:552
+msgid "Query [new]"
+msgstr "查询[新建]"
+
+#: webseer.php:345
+msgid "No Users Selected"
+msgstr "没有用户选择"
+
+#: webseer.php:347
+msgid "Users Selected"
+msgstr "用户选择"
+
+#: webseer.php:350
+msgid "All Users Selected"
+msgstr "所有用户选择"
+
+#: webseer.php:356
+msgid "All"
+msgstr "所有"
+
+#: webseer.php:390 webseer.php:853 webseer_proxies.php:343
+msgid "Search"
+msgstr "搜索"
+
+#: webseer.php:472 webseer_servers.php:290
+msgid "Date"
+msgstr "日期"
+
+#: webseer.php:475 webseer.php:635 webseer_servers.php:293
+msgid "HTTP Code"
+msgstr "HTTP代码"
+
+#: webseer.php:476 webseer.php:645 webseer_servers.php:294
+msgid "DNS"
+msgstr "DNS"
+
+#: webseer.php:477 webseer.php:650 webseer_servers.php:295
+msgid "Connect"
+msgstr "连接"
+
+#: webseer.php:478 webseer.php:655 webseer_servers.php:296
+msgid "Redirect"
+msgstr "重定向"
+
+#: webseer.php:479 webseer.php:660 webseer_servers.php:297
+msgid "Total"
+msgstr "总"
+
+#: webseer.php:480 webseer.php:620
+msgid "Status"
+msgstr "状态"
+
+#: webseer.php:508 webseer.php:738 webseer_servers.php:320
+msgid "Down"
+msgstr "宕机"
+
+#: webseer.php:508 webseer.php:738 webseer_servers.php:320
+msgid "Up"
+msgstr "启动"
+
+#: webseer.php:513 webseer_servers.php:330
+msgid "No Events in History"
+msgstr "历史中没有事件"
+
+#: webseer.php:610 webseer_servers.php:394
+msgid "Actions"
+msgstr "操作"
+
+#: webseer.php:625 webseer.php:741 webseer.php:744 webseer_servers.php:397
+#: webseer_servers.php:624
+msgid "Enabled"
+msgstr "启用"
+
+#: webseer.php:640
+msgid "Auth"
+msgstr "验证"
+
+#: webseer.php:665
+msgid "Timeout"
+msgstr "超时"
+
+#: webseer.php:670 webseer_servers.php:399
+msgid "Last Check"
+msgstr "上次检查"
+
+#: webseer.php:703
+msgid "Edit Site"
+msgstr "编辑网站"
+
+#: webseer.php:708
+msgid "Enable Site"
+msgstr "启用网站"
+
+#: webseer.php:712
+msgid "Disable Site"
+msgstr "禁用网站"
+
+#: webseer.php:717 webseer_servers.php:433
+msgid "View History"
+msgstr "查看历史"
+
+#: webseer.php:726
+#, php-format
+msgid "DNS: Server %s - A Record for %s"
+msgstr "DNS：服务器 %s -   %s的记录"
+
+#: webseer.php:736
+msgid "N/A"
+msgstr "N/A"
+
+#: webseer.php:741 webseer.php:744 webseer_servers.php:624
+msgid "Disabled"
+msgstr "已禁用"
+
+#: webseer.php:743 webseer_servers.php:292
+msgid "Error"
+msgstr "错误"
+
+#: webseer.php:758 webseer_proxies.php:315 webseer_servers.php:450
+msgid "No Servers Found"
+msgstr "找不到服务器"
+
+#: webseer.php:844
+msgid "Webseer Site Management"
+msgstr "Webseer网站管理"
+
+#: webseer.php:859 webseer_servers.php:618
+msgid "State"
+msgstr "状态"
+
+#: webseer.php:863 webseer_servers.php:622
+msgid "Any"
+msgstr "所有"
+
+#: webseer.php:872 webseer_servers.php:631
+msgid "Refresh"
+msgstr "刷新"
+
+#: webseer.php:893 webseer_proxies.php:354 webseer_servers.php:648
+msgid "Default"
+msgstr "默认"
+
+#: webseer.php:904 webseer_proxies.php:365
+msgid "Go"
+msgstr "Go"
+
+#: webseer.php:905 webseer_proxies.php:366 webseer_servers.php:659
+msgid "Clear"
+msgstr "清除"
+
+#: webseer_proxies.php:103
+#, fuzzy
+msgid "Click 'Continue' to delete the following Proxy."
+msgid_plural "Click 'Continue' to delete following Proxies."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer_proxies.php:108
+msgid "Delete Proxy"
+msgid_plural "Delete Proxies"
+msgstr[0] "删除代理  Delete Proxy"
+
+#: webseer_proxies.php:169
+#, fuzzy, php-format
+msgid "Proxy [edit: %s]"
+msgstr "查询[编辑：%s]"
+
+#: webseer_proxies.php:171
+#, fuzzy
+msgid "Proxy [new]"
+msgstr "查询[新建]"
+
+#: webseer_proxies.php:281
+#, fuzzy
+msgid "Ports (http/https)"
+msgstr "端口（http / https）"
+
+#: webseer_proxies.php:285
+msgid "Username"
+msgstr "用户名"
+
+#: webseer_proxies.php:309
+msgid "Not Set"
+msgstr "没有设置"
+
+#: webseer_proxies.php:334
+#, fuzzy
+msgid "Webseer Proxy Management"
+msgstr "Webseer服务器管理"
+
+#: webseer_servers.php:135
+#, fuzzy
+msgid "Click 'Continue' to Delete the following Server."
+msgid_plural "Click 'Continue' to Delete following Servers."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer_servers.php:140
+#, fuzzy
+#| msgid "WebSeer Servers"
+msgid "Delete Server"
+msgid_plural "Delete Servers"
+msgstr[0] "WebSeer服务器"
+
+#: webseer_servers.php:144
+#, fuzzy
+msgid "Click 'Continue' to Disable the following Server."
+msgid_plural "Click 'Continue' to Disable following Servers."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer_servers.php:149 webseer_servers.php:428
+#, fuzzy
+#| msgid "Enable Server"
+msgid "Disable Server"
+msgid_plural "Disable Servers"
+msgstr[0] "启用服务器"
+
+#: webseer_servers.php:153
+#, fuzzy
+msgid "Click 'Continue' to Enable the following Server."
+msgid_plural "Click 'Continue' to Enable following Servers."
+msgstr[0] "单击“继续”以删除以下代理。"
+
+#: webseer_servers.php:400
+msgid "Master"
+msgstr "主"
+
+#: webseer_servers.php:401
+msgid "This Host"
+msgstr "这个主机"
+
+#: webseer_servers.php:419
+#, fuzzy
+#| msgid "Edit Site"
+msgid "Edit Server"
+msgstr "编辑网站"
+
+#: webseer_servers.php:440 webseer_servers.php:443 webseer_servers.php:444
+msgid "No"
+msgstr "不"
+
+#: webseer_servers.php:440 webseer_servers.php:443 webseer_servers.php:444
+msgid "Yes"
+msgstr "是"
+
+#: webseer_servers.php:610
+msgid "Webseer Server Management"
+msgstr "Webseer服务器管理"
+
+#: webseer_servers.php:624
+msgid "Triggered"
+msgstr "触发"
+
+#, fuzzy
+#~ msgid "You must select at least one Proxy."
+#~ msgstr "您必须至少选择一个代理。"
+
+#~ msgid "Return"
+#~ msgstr "返回"
+
+#~ msgid "Sites"
+#~ msgstr "网站"
