@@ -90,8 +90,6 @@ plugin_webseer_check_debug();
 
 print "Running Service Checks\n";
 
-plugin_webseer_register_server();
-
 // Remove old Logs (ADD A SETTING!!!!!!)
 $t = time() - (86400 * 30);
 
@@ -159,12 +157,10 @@ while(true) {
 	}
 }
 
-$servers = plugin_webseer_update_servers();
-
 $end   = microtime(true);
 $ttime = round($end - $start, 2);
 
-$stats = 'Time:' . $ttime . ' Checks:' . sizeof($urls) . ' Servers:' . $servers;
+$stats = 'Time:' . $ttime . ' Checks:' . sizeof($urls);
 
 cacti_log("WEBSEER STATS: $stats", false, 'SYSTEM');
 
@@ -174,80 +170,6 @@ if ($poller_id == 1) {
 
 set_config_option('stats_webseer_' . $poller_id, $stats);
 
-function plugin_webseer_register_server() {
-	global $config;
-
-	$lastcheck = date('Y-m-d H:i:s');
-
-	if (function_exists('gethostname')) {
-		$hostname = gethostname();
-	} else {
-		$hostname = php_uname('n');
-	}
-
-	$ipaddress = gethostbyname($hostname);
-
-	$found = db_fetch_cell_prepared('SELECT id
-		FROM plugin_webseer_servers
-		WHERE ip = ?',
-		array($ipaddress));
-
-	if (!$found) {
-		$found = array();
-		$found['debug_type'] = 'Server';
-
-		plugin_webseer_debug('Registering Server ' . $ipaddress, $found);
-
-		$save = array();
-		$save['enabled']   = 'on';
-		$save['isme']      = 1;
-		$save['lastcheck'] = $lastcheck;
-		$save['ip']        = $ipaddress;
-
-		if (isset($config['poller_id']) && $config['poller_id'] == 1) {
-			$save['master'] = 1;
-			$save['name']   = __('Cacti Master');
-		} else {
-			$save['master'] = 0;
-			$save['name']   = __('Cacti Remote Server');
-		}
-
-		if (substr_count($hostname, '.') > 0) {
-			$urlhost = $hostname;
-		} else {
-			$urlhost = $ipaddress;
-		}
-
-		if (isset($config['url_path'])) {
-			$save['url'] = (read_config_option('force_https') == 'on' ? 'https://':'http://') . $urlhost . $config['url_path'] . 'index.php';
-		} else {
-			$save['url'] = 'http://' . $urlhost;
-		}
-
-		$id = sql_save($save, 'plugin_webseer_servers');
-	}
-}
-
-function plugin_webseer_update_servers() {
-	$servers = db_fetch_assoc('SELECT *
-		FROM plugin_webseer_servers
-		WHERE isme = 0
-		AND enabled = 1');
-
-	if ($servers !== false && cacti_sizeof($servers)) {
-		foreach ($servers as $server) {
-			$server['debug_type'] = 'Server';
-
-			$cc = new cURL(true, 'cookies.txt', $server['compression'], '', $server);;
-
-			$data = array();
-			$data['action'] = 'HEARTBEAT';
-			$results = $cc->post($server['url'], $data);
-		}
-	}
-
-	return cacti_sizeof($servers);
-}
 
 /**
  * display_version - displays version information

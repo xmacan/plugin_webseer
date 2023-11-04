@@ -31,7 +31,7 @@ function plugin_webseer_install () {
 	api_plugin_register_hook('webseer', 'poller_bottom',        'plugin_webseer_poller_bottom',        'setup.php');
 	api_plugin_register_hook('webseer', 'replicate_out',        'webseer_replicate_out',               'setup.php');
 
-	api_plugin_register_realm('webseer', 'webseer.php,webseer_servers.php,webseer_proxies.php', __('Web Service Check Admin', 'webseer'), 1);
+	api_plugin_register_realm('webseer', 'webseer.php,webseer_proxies.php', __('Service Check Admin', 'webseer'), 1);
 
 	plugin_webseer_setup_table();
 }
@@ -109,6 +109,11 @@ function plugin_webseer_upgrade() {
 				ADD COLUMN compression int(3) unsigned NOT NULL default "0" AFTER lastcheck');
 		}
 
+		if (version_compare($old, '3.4', '<')) {
+			db_execute('DROP TABLE plugin_webseer_servers');
+			db_execute('DROP TABLE plugin_webseer_servers_log');
+		}
+		
 		if (!db_column_exists('plugin_webseer_urls', 'notify_list')) {
 			db_execute('ALTER TABLE plugin_webseer_urls ADD COLUMN notify_list int(10) unsigned NOT NULL default "0" AFTER checkcert');
 		}
@@ -141,7 +146,7 @@ function plugin_webseer_upgrade() {
 		db_execute_prepared('UPDATE plugin_realms
 			SET file = ?
 			WHERE file LIKE "%webseer.php%"',
-			array('webseer.php,webseer_servers.php,webseer_proxies.php'));
+			array('webseer.php,webseer_proxies.php'));
 
 		api_plugin_register_hook('webseer', 'replicate_out', 'webseer_replicate_out', 'setup.php', '1');
 	}
@@ -156,45 +161,6 @@ function plugin_webseer_version() {
 }
 
 function plugin_webseer_setup_table() {
-	db_execute("CREATE TABLE IF NOT EXISTS `plugin_webseer_servers` (
-		`id` int(11) unsigned NOT NULL auto_increment,
-		`enabled` char(2) NOT NULL default 'on',
-		`name` varchar(64) NOT NULL,
-		`ip` varchar(120) NOT NULL,
-		`location` varchar(64) NOT NULL,
-		`lastcheck` timestamp NOT NULL default '0000-00-00',
-		`compression` int(3) NOT NULL default '0',
-		`isme` int(11) unsigned NOT NULL default '0',
-		`master` int(11) unsigned NOT NULL default '0',
-		`url` varchar(256) NOT NULL,
-		PRIMARY KEY  (`id`),
-		KEY `location` (`location`,`lastcheck`),
-		KEY `isme` (`isme`),
-		KEY `master` (`master`)) ENGINE=InnoDB
-		COMMENT='Holds WebSeer Server Definitions'");
-
-	db_execute("CREATE TABLE IF NOT EXISTS `plugin_webseer_servers_log` (
-		`id` int(11) unsigned NOT NULL auto_increment,
-		`server` int(11) unsigned NOT NULL default '0',
-		`url_id` int(11) unsigned NOT NULL default '0',
-		`lastcheck` timestamp NOT NULL default '0000-00-00',
-		`compression` int(3) unsigned NOT NULL default '0',
-		`result` int(11) unsigned NOT NULL default '0',
-		`http_code` int(11) unsigned default NULL,
-		`error` varchar(256) default NULL,
-		`total_time` double default NULL,
-		`namelookup_time` double default NULL,
-		`connect_time` double default NULL,
-		`redirect_time` double default NULL,
-		`redirect_count` int(11) unsigned default NULL,
-		`size_download` int(11) unsigned default NULL,
-		`speed_download` int(11) unsigned default NULL,
-		PRIMARY KEY  (`id`),
-		KEY `url_id` (`url_id`),
-		KEY `lastcheck` (`lastcheck`),
-		KEY `result` (`result`))
-		ENGINE=InnoDB
-		COMMENT='Holds WebSeer Service Check Results'");
 
 	db_execute("CREATE TABLE IF NOT EXISTS `plugin_webseer_urls` (
 		`id` int(11) unsigned NOT NULL auto_increment,
@@ -349,27 +315,6 @@ function plugin_webseer_draw_navigation_text($nav) {
 		'level' => '1'
 	);
 
-	$nav['webseer_servers.php:'] = array(
-		'title' => __('WebSeer Servers', 'webseer'),
-		'mapping' => 'index.php:',
-		'url' => 'webseer_servers.php',
-		'level' => '1'
-	);
-
-	$nav['webseer_servers.php:edit'] = array(
-		'title' => __('Server Edit', 'webseer'),
-		'mapping' => 'index.php:',
-		'url' => 'webseer.php',
-		'level' => '1'
-	);
-
-	$nav['webseer_servers.php:save'] = array(
-		'title' => __('Save Server', 'webseer'),
-		'mapping' => 'index.php:',
-		'url' => 'webseer.php',
-		'level' => '1'
-	);
-
 	$nav['webseer_proxies.php:'] = array(
 		'title' => __('WebSeer Proxies', 'webseer'),
 		'mapping' => 'index.php:',
@@ -404,7 +349,6 @@ function webseer_replicate_out($data) {
 	$tables = array(
 		'plugin_webseer_contacts',
 		'plugin_webseer_proxies',
-		'plugin_webseer_servers',
 		'plugin_webseer_urls'
 	);
 

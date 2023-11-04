@@ -176,21 +176,8 @@ if ($url['url'] != '') {
 	$t  = time() - ($url['downtrigger'] * 60);
 	$lc = time() - ($pi*2);
 
-	$ts = db_fetch_cell_prepared('SELECT count(id)
-		FROM plugin_webseer_servers
-		WHERE isme = 1
-		OR (isme = 0 AND UNIX_TIMESTAMP(lastcheck) > ?)',
-		array($lc));
 
-	$tf = ($ts * ($url['downtrigger'] - 1)) + 1;
-
-	$url['failures'] = db_fetch_cell_prepared('SELECT COUNT(url_id)
-		FROM plugin_webseer_servers_log
-		WHERE UNIX_TIMESTAMP(lastcheck) > ?
-		AND url_id = ?',
-		array($t, $url['id']));
-
-	plugin_webseer_debug('pi:' . $pi . ', t:' . $t . ' (' . date('Y-m-d H:i:s', $t) . '), lc:' . $lc . ' (' . date('Y-m-d H:i:s', $lc) . '), ts:' . $ts . ', tf:' . $tf, $url);
+//	plugin_webseer_debug('pi:' . $pi . ', t:' . $t . ' (' . date('Y-m-d H:i:s', $t) . '), lc:' . $lc . ' (' . date('Y-m-d H:i:s', $lc) . '), ts:' . $ts . ', tf:' . $tf, $url);
 
 	plugin_webseer_debug('failures:'. $url['failures'] . ', triggered:' . $url['triggered'], $url);
 
@@ -202,7 +189,7 @@ if ($url['url'] != '') {
 		if ($results['result'] == 0) {
 			$url['failures'] += $url['failures'];
 
-			if ($url['failures'] >= ($url['downtrigger'] * 60)/$poller_interval && $url['triggered'] == 0) {
+			if ($url['failures'] >= $url['downtrigger'] && $url['triggered'] == 0) {
 				$sendemail = true;
 				$url['triggered'] = 1;
 			}
@@ -262,42 +249,6 @@ if ($url['url'] != '') {
 		)
 	);
 
-	if ($results['result'] == 0) {
-		$save = array();
-		$save['url_id']          = $url['id'];
-		$save['server']          = plugin_webseer_whoami();
-		$save['lastcheck']       = date('Y-m-d H:i:s', $results['time']);
-		$save['result']          = $results['result'];
-		$save['http_code']       = $results['options']['http_code'];
-		$save['error']           = $results['error'];
-		$save['total_time']      = $results['options']['total_time'];
-		$save['namelookup_time'] = $results['options']['namelookup_time'];
-		$save['connect_time']    = $results['options']['connect_time'];
-		$save['redirect_time']   = $results['options']['redirect_time'];
-		$save['redirect_count']  = $results['options']['redirect_count'];
-		$save['size_download']   = $results['options']['size_download'];
-		$save['speed_download']  = $results['options']['speed_download'];
-
-		plugin_webseer_down_remote_hosts($save);
-
-		db_execute_prepared('INSERT INTO plugin_webseer_servers_log
-			(url_id, server, lastcheck, result, http_code, error, total_time,
-			namelookup_time, connect_time, redirect_time, redirect_count,
-			size_download, speed_download)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-			array($url['id'], plugin_webseer_whoami(), date('Y-m-d H:i:s', $results['time']),
-				$results['result'], $results['options']['http_code'], $results['error'],
-				$results['options']['total_time'], $results['options']['namelookup_time'],
-				$results['options']['connect_time'], $results['options']['redirect_time'],
-				$results['options']['redirect_count'], $results['options']['size_download'],
-				$results['options']['speed_download'])
-		);
-	}
-
-	db_execute_prepared('UPDATE plugin_webseer_servers
-		SET lastcheck=NOW()
-		WHERE id = ?',
-		array(plugin_webseer_whoami()));
 }
 
 /* register process end */
@@ -305,7 +256,7 @@ register_shutdown($url_id);
 
 /* purge old entries from the log */
 
-db_execute_prepared('DELETE FROM plugin_webseer_servers_log
+db_execute_prepared('DELETE FROM plugin_webseer_urls_log
 	WHERE lastcheck < FROM_UNIXTIME(?)',
 	array(time() - (86400 * 90)));
 
@@ -416,47 +367,6 @@ function plugin_webseer_get_users($results, $url, $type) {
 	}
 }
 
-function plugin_webseer_amimaster() {
-	if (function_exists('gethostname')) {
-		$hostname = gethostname();
-	} else {
-		$hostname = php_uname('n');
-	}
-
-	$ipaddress = gethostbyname($hostname);
-
-	$server    = db_fetch_cell_prepared('SELECT id
-		FROM plugin_webseer_servers
-		WHERE ip = ?
-		AND master = 1',
-		array($ipaddress));
-
-	if ($server) {
-		return true;
-	}
-
-	return false;
-}
-
-function plugin_webseer_whoami() {
-	if (function_exists('gethostname')) {
-		$hostname = gethostname();
-	} else {
-		$hostname = php_uname('n');
-	}
-
-	$ipaddress = gethostbyname($hostname);
-	$server    = db_fetch_cell_prepared('SELECT id
-		FROM plugin_webseer_servers
-		WHERE ip = ?',
-		array($ipaddress));
-
-	if ($server) {
-		return $server;
-	}
-
-	return 0;
-}
 
 function plugin_webseer_send_email($to, $subject, $message) {
 	$from_name  = read_config_option('settings_from_name');

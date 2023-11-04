@@ -24,8 +24,8 @@
 
 include_once(__DIR__ . '/constants.php');
 
-global	$webseer_actions_proxy, $webseer_actions_url, $webseer_actions_server,
-	$webseer_proxy_fields, $webseer_server_fields, $webseer_url_fields,
+global	$webseer_actions_proxy, $webseer_actions_url,
+	$webseer_proxy_fields, $webseer_url_fields,
 	$webseer_notify_accounts, $httperrors, $httpcompressions, $webseer_seconds,
 	$webseer_minutes;
 
@@ -89,17 +89,17 @@ $httpcompressions = array(
 	11 => 'zstd',
 );
 
-$webseer_minutes = array(
-	1  => __('%d Minute', 1, 'webseer'),
-	2  => __('%d Minutes', 2, 'webseer'),
-	3  => __('%d Minutes', 3, 'webseer'),
-	4  => __('%d Minutes', 4, 'webseer'),
-	5  => __('%d Minutes', 5, 'webseer'),
-	6  => __('%d Minutes', 6, 'webseer'),
-	7  => __('%d Minutes', 7, 'webseer'),
-	8  => __('%d Minutes', 8, 'webseer'),
-	9  => __('%d Minutes', 9, 'webseer'),
-	10 => __('%d Minutes', 10, 'webseer'),
+$webseer_cycles = array(
+	1  => __('%d Poller run', 1, 'webseer'),
+	2  => __('%d Poller runs', 2, 'webseer'),
+	3  => __('%d Poller runs', 3, 'webseer'),
+	4  => __('%d Poller runs', 4, 'webseer'),
+	5  => __('%d Poller runs', 5, 'webseer'),
+	6  => __('%d Poller runs', 6, 'webseer'),
+	7  => __('%d Poller runs', 7, 'webseer'),
+	8  => __('%d Poller runs', 8, 'webseer'),
+	9  => __('%d Poller runs', 9, 'webseer'),
+	10 => __('%d Poller runs', 10, 'webseer'),
 );
 
 $webseer_seconds = array(
@@ -146,12 +146,6 @@ $webseer_actions_url = array(
 	WEBSEER_ACTION_URL_DISABLE   => __('Disable', 'webseer'),
 	WEBSEER_ACTION_URL_ENABLE    => __('Enable', 'webseer'),
 	WEBSEER_ACTION_URL_DUPLICATE => __('Duplicate', 'webseer'),
-);
-
-$webseer_actions_server = array(
-	WEBSEER_ACTION_SERVER_DELETE    => __('Delete', 'webseer'),
-	WEBSEER_ACTION_SERVER_DISABLE   => __('Disable', 'webseer'),
-	WEBSEER_ACTION_SERVER_ENABLE    => __('Enable', 'webseer'),
 );
 
 /**** Form Fields ****/
@@ -221,65 +215,6 @@ $webseer_proxy_fields = array(
 	)
 );
 
-$webseer_server_fields = array(
-	'general_spacer' => array(
-		'method' => 'spacer',
-		'friendly_name' => __('General Settings', 'webseer')
-	),
-	'name' => array(
-		'method' => 'textbox',
-		'friendly_name' => __('Name', 'webseer'),
-		'description' => __('Display Name of this server', 'webseer'),
-		'value' => '|arg1:name|',
-		'max_length' => '256',
-	),
-	'enabled' => array(
-		'method' => 'checkbox',
-		'friendly_name' => __('Enable Server', 'webseer'),
-		'description' => __('Uncheck this box to disabled this server from checking urls.', 'webseer'),
-		'value' => '|arg1:enabled|',
-		'default' => '',
-	),
-	'isme' => array(
-		'method' => 'checkbox',
-		'friendly_name' => __('Is this server the local server?', 'webseer'),
-		'description' => __('Check this box if the current server you are connected to is this entry.', 'webseer'),
-		'value' => '|arg1:isme|',
-		'default' => '',
-	),
-	'master' => array(
-		'method' => 'checkbox',
-		'friendly_name' => __('Master Server', 'webseer'),
-		'description' => __('Sets this server to the Master server.  The Master server handles all Email operations', 'webseer'),
-		'value' => '|arg1:master|',
-		'default' => '',
-	),
-	'ip' => array(
-		'method' => 'textbox',
-		'friendly_name' => __('IP Address', 'webseer'),
-		'description' => __('IP Address to connect to this server', 'webseer'),
-		'value' => '|arg1:ip|',
-		'max_length' => '256',
-	),
-	'url' => array(
-		'method' => 'textbox',
-		'friendly_name' => __('URL', 'webseer'),
-		'description' => __('This is the URL to connect to remote.php on this server.', 'webseer'),
-		'value' => '|arg1:url|',
-		'max_length' => '256',
-	),
-	'location' => array(
-		'method' => 'textbox',
-		'friendly_name' => __('Location', 'webseer'),
-		'description' => __('Location of this server', 'webseer'),
-		'value' => '|arg1:location|',
-		'max_length' => '256',
-	),
-	'id' => array(
-		'method' => 'hidden_zero',
-		'value' => '|arg1:id|'
-	),
-);
 
 $webseer_url_fields = array(
 	'general_spacer' => array(
@@ -358,9 +293,9 @@ $webseer_url_fields = array(
 	'downtrigger' => array(
 		'friendly_name' => __('Trigger', 'webseer'),
 		'method' => 'drop_array',
-		'array' => $webseer_minutes,
-		'default' => 3,
-		'description' => __('How many minutes the URL must be down before it will send an alert.  After an alert is sent, in order for a \'Site Recovering\' Email to be send, it must also be up this number of minutes.', 'webseer'),
+		'array' => $webseer_cycles,
+		'default' => 1,
+		'description' => __('How many poller cycles must be down before it will send an alert.  After an alert is sent, in order for a \'Site Recovering\' Email to be send, it must also be up this number of poller cycles.', 'webseer'),
 		'value' => '|arg1:downtrigger|',
 	),
 	'timeout_trigger' => array(

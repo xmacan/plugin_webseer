@@ -44,7 +44,6 @@ case 'enable':
 
 	if ($id > 0) {
 		db_execute_prepared('UPDATE plugin_webseer_urls SET enabled = "on" WHERE id = ?', array($id));
-		plugin_webseer_enable_remote_hosts($id, true);
 	}
 
 	header('Location: webseer.php?header=false');
@@ -56,7 +55,6 @@ case 'disable':
 
 	if ($id > 0) {
 		db_execute_prepared('UPDATE plugin_webseer_urls SET enabled = "" WHERE id = ?', array($id));
-		plugin_webseer_enable_remote_hosts($id, false);
 	}
 
 	header('Location: webseer.php?header=false');
@@ -112,17 +110,14 @@ function form_actions() {
 					foreach ($urls as $id) {
 						db_execute_prepared('DELETE FROM plugin_webseer_urls WHERE id = ?', array($id));
 						db_execute_prepared('DELETE FROM plugin_webseer_urls_log WHERE url_id = ?', array($id));
-						plugin_webseer_delete_remote_hosts($id);
 					}
 				} elseif ($action == WEBSEER_ACTION_URL_DISABLE) { // disable
 					foreach ($urls as $id) {
 						db_execute_prepared('UPDATE plugin_webseer_urls SET enabled = "" WHERE id = ?', array($id));
-						plugin_webseer_enable_remote_hosts($id, false);
 					}
 				} elseif ($action == WEBSEER_ACTION_URL_ENABLE) { // enable
 					foreach ($urls as $id) {
 						db_execute_prepared('UPDATE plugin_webseer_urls SET enabled = "on" WHERE id = ?', array($id));
-						plugin_webseer_enable_remote_hosts($id, true);
 					}
 				} elseif ($action == WEBSEER_ACTION_URL_DUPLICATE) { // duplicate
 					foreach($urls as $url) {
@@ -317,12 +312,6 @@ function form_save() {
 	plugin_webseer_remove_old_users();
 
 	if (!is_error_message()) {
-		if ($save['id'] == 0) {
-			plugin_webseer_add_remote_hosts($id, $save);
-		} else {
-			plugin_webseer_update_remote_hosts($save);
-		}
-
 		if ($id) {
 			raise_message(1);
 		} else {
@@ -635,7 +624,7 @@ function webseer_show_history() {
 
 	html_start_box('', '100%', '', '4', 'center', '');
 
-	html_header_sort($display_text, get_request_var('sort_column'), get_request_var('sort_direction'), 1, 'webseer_servers.php?action=history&id=' . get_request_var('id'), 'main');
+	html_header_sort($display_text, get_request_var('sort_column'), get_request_var('sort_direction'), 1, 'webseer.php?action=history&id=' . get_request_var('id'), 'main');
 
 	if (count($result)) {
 		foreach ($result as $row) {
@@ -907,7 +896,7 @@ function list_urls() {
 		}
 	} else {
 		form_alternate_row();
-		print '<td colspan="' . (cacti_sizeof($display_text) + 1) . '"><center>' . __('No Servers Found', 'webseer') . '</center></td></tr>';
+		print '<td colspan="' . (cacti_sizeof($display_text) + 1) . '"><center>' . __('No Logs Found', 'webseer') . '</center></td></tr>';
 	}
 
 	html_end_box(false);
