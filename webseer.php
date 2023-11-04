@@ -720,10 +720,10 @@ function list_urls() {
 		$rows = get_request_var('rows');
 	}
 
-	$sql_where = '';
+	$sql_where = 'WHERE `type` = "http" ';
 
 	if ($statefilter != '') {
-		$sql_where .= ($sql_where != '' ? ' AND ' : 'WHERE ') . $statefilter;
+		$sql_where .= ' AND ' . $statefilter;
 	}
 
 	$sql_order = get_order_string();

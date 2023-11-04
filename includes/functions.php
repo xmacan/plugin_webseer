@@ -32,6 +32,8 @@ function webseer_show_tab($current_tab) {
 
 	$tabs = array(
 		'webseer.php'         => __('Checks HTTP/HTTPS', 'webseer'),
+		'webseer_mail.php'    => __('Checks SMTP/IMAP/POP', 'webseer'),
+
 		'webseer_proxies.php' => __('Proxies', 'webseer')
 	);
 

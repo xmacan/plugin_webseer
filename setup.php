@@ -31,7 +31,7 @@ function plugin_webseer_install () {
 	api_plugin_register_hook('webseer', 'poller_bottom',        'plugin_webseer_poller_bottom',        'setup.php');
 	api_plugin_register_hook('webseer', 'replicate_out',        'webseer_replicate_out',               'setup.php');
 
-	api_plugin_register_realm('webseer', 'webseer.php,webseer_proxies.php', __('Service Check Admin', 'webseer'), 1);
+	api_plugin_register_realm('webseer', 'webseer.php,webseer_mail.php,webseer_proxies.php', __('Service Check Admin', 'webseer'), 1);
 
 	plugin_webseer_setup_table();
 }
@@ -151,7 +151,7 @@ function plugin_webseer_upgrade() {
 		db_execute_prepared('UPDATE plugin_realms
 			SET file = ?
 			WHERE file LIKE "%webseer.php%"',
-			array('webseer.php,webseer_proxies.php'));
+			array('webseer.php,webseer_mail.php,webseer_proxies.php'));
 
 		api_plugin_register_hook('webseer', 'replicate_out', 'webseer_replicate_out', 'setup.php', '1');
 	}
@@ -302,21 +302,42 @@ function plugin_webseer_config_arrays() {
 
 function plugin_webseer_draw_navigation_text($nav) {
 	$nav['webseer.php:'] = array(
-		'title' => __('WebSeer Service Checks', 'webseer'),
+		'title' => __('WebSeer Web Service Checks', 'webseer'),
 		'mapping' => 'index.php:',
 		'url' => 'webseer.php',
 		'level' => '1'
 	);
 
 	$nav['webseer.php:edit'] = array(
-		'title' => __('Service Check Edit', 'webseer'),
+		'title' => __('Web Service Check Edit', 'webseer'),
 		'mapping' => 'index.php:',
 		'url' => 'webseer.php',
 		'level' => '1'
 	);
 
 	$nav['webseer.php:save'] = array(
-		'title' => __('Service Check Save', 'webseer'),
+		'title' => __('Web Service Check Save', 'webseer'),
+		'mapping' => 'index.php:',
+		'url' => 'webseer.php',
+		'level' => '1'
+	);
+
+	$nav['webseer_mail.php:'] = array(
+		'title' => __('WebSeer Email Service Checks', 'webseer'),
+		'mapping' => 'index.php:',
+		'url' => 'webseer.php',
+		'level' => '1'
+	);
+
+	$nav['webseer_mail.php:edit'] = array(
+		'title' => __('Email Service Check Edit', 'webseer'),
+		'mapping' => 'index.php:',
+		'url' => 'webseer.php',
+		'level' => '1'
+	);
+
+	$nav['webseer_mail.php:save'] = array(
+		'title' => __('Email Service Check Save', 'webseer'),
 		'mapping' => 'index.php:',
 		'url' => 'webseer.php',
 		'level' => '1'
