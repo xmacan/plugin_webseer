@@ -229,52 +229,56 @@ class cURL {
 
 		curl_close($process);
 
+		$this->results['search_result'] = -1;
+
+		if ($this->results['options']['http_code'] == 404) {
+//			$this->debug('JDU 404!!!');
+
+			$this->results['result'] = 0;
+			return $this->results;
+		}
+
+		$this->results['result'] = 1;
+
 		// If we have set a failed search string, then ignore the normal searches and only alert on it
-		if ($this->host['search_failed'] != '' && $errnum > 0) {
+		if ($this->host['search_failed'] != '') {
 			$this->debug('Processing search_failed');
 
 			if (strpos($data, $this->host['search_failed']) !== false) {
-				$this->results['error'] = 'Failure Search string found!';
-			} else {
-				$this->results['error'] = '';
-				$this->results['result'] = 1;
-			}
-		}elseif ($errnum == 0) {
-			$this->debug('Processing search');
-
-			if ($this->host['search'] != '') {
-				$found = (strpos($data, $this->host['search']) !== false);
-			} else {
-				$found = false;
-			}
-
-			if (!$found && $this->host['search_maint'] != '') {
-				$this->debug('Processing search maint');
-				$found = (strpos($data, $this->host['search_maint']) !== false);
-			}
-
-			if (!$found) {
-				$this->debug('Processing search not found');
-
-				$this->results['error'] = 'Search string not found';
-			} else {
-				$this->debug('Processing search found');
-
-				if ($this->host['requiresauth'] == '') {
-					$this->debug('Processing requires authentication');
-
-					$this->results['result'] = 1;
-				} else {
-					$this->debug('Processing requires no authentication required');
-
-					if ($this->results['options']['http_code'] == 401) {
-						$this->results['result'] = 1;
-					} else {
-						$this->results['error'] = 'The requested URL returned error: ' . $this->results['options']['http_code'];
-					}
-				}
+				$this->results['search_result'] = 3;
+				return $this->results;
 			}
 		}
+
+		$this->debug('Processing search');
+
+		if ($this->host['search'] != '') {
+			if (strpos($data, $this->host['search']) !== false) {
+				$this->results['search_result'] = 1;
+				return $this->results;
+			} else {
+				$this->results['search_result'] = 0;
+				return $this->results;
+			}
+			
+		}
+
+		if ($this->host['search_maint'] != '') {
+			$this->debug('Processing search maint');
+			if(strpos($data, $this->host['search_maint']) !== false) {
+				$this->results['search_result'] = 2;
+				return $this->results;
+			}
+		}
+
+		if ($this->host['requiresauth'] != '') {
+			$this->debug('Processing requires no authentication required');
+
+			if ($this->results['options']['http_code'] != 401) {
+				$this->results['error'] = 'The requested URL returned error: ' . $this->results['options']['http_code'];
+			}
+		}
+
 
 		return $this->results;
 	}

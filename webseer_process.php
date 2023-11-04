@@ -32,6 +32,7 @@ if (strpos($dir, 'plugins') !== false) {
 
 require('./include/cli_check.php');
 include_once($config['base_path'] . '/plugins/webseer/includes/functions.php');
+include_once($config['base_path'] . '/plugins/webseer/includes/arrays.php');
 
 ini_set('max_execution_time', '21');
 
@@ -171,17 +172,24 @@ if ($url['url'] != '') {
 		usleep(10000);
 	}
 
-	// Do calculations for triggering
-	$pi = read_config_option('poller_interval');
-	$t  = time() - ($url['downtrigger'] * 60);
-	$lc = time() - ($pi*2);
-
-
-//	plugin_webseer_debug('pi:' . $pi . ', t:' . $t . ' (' . date('Y-m-d H:i:s', $t) . '), lc:' . $lc . ' (' . date('Y-m-d H:i:s', $lc) . '), ts:' . $ts . ', tf:' . $tf, $url);
+	if (!isset($results['search_result'])) {
+		$results['search_result'] = -1;
+	}
 
 	plugin_webseer_debug('failures:'. $url['failures'] . ', triggered:' . $url['triggered'], $url);
 
-	if (strtotime($url['lastcheck']) > 0 && (($url['result'] != '' && $url['result'] != $results['result']) || $url['failures'] > 0 || $url['triggered'] == 1)) {
+plugin_webseer_debug('111-url[result]' . $url['result'], $url);
+plugin_webseer_debug('111-results[result]' . $results['result'], $url);
+plugin_webseer_debug('111-url[search_result]' . $url['search_result'], $url);
+plugin_webseer_debug('111-results[search_result]' . $results['search_result'], $url);
+
+//!!!! pomoc, abych necekal
+$url['downtrigger'] = 0;
+
+	$url['status_change'] = false;
+
+	if ($url['result'] != $results['result'] || $url['search_result'] != $results['search_result']) {
+
 		plugin_webseer_debug('Checking for trigger', $url);
 
 		$sendemail = false;
@@ -192,6 +200,7 @@ if ($url['url'] != '') {
 			if ($url['failures'] >= $url['downtrigger'] && $url['triggered'] == 0) {
 				$sendemail = true;
 				$url['triggered'] = 1;
+				$url['status_change'] = true;
 			}
 		}
 
@@ -199,34 +208,38 @@ if ($url['url'] != '') {
 			if ($url['failures'] == 0 && $url['triggered'] == 1) {
 				$sendemail = true;
 				$url['triggered'] = 0;
+				$url['status_change'] = true;
 			}
+		}
+
+		if ($url['search_result'] != $results['search_result']) {
+			$sendemail = true;
 		}
 
 		db_execute_prepared("INSERT INTO plugin_webseer_urls_log
 			(url_id, lastcheck, compression, result, http_code, error,
 			total_time, namelookup_time, connect_time, redirect_time,
-			redirect_count, size_download, speed_download)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			redirect_count, size_download, speed_download, search_result)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 			array($url['id'], date('Y-m-d H:i:s', $results['time']),
 				$results['options']['compression'], $results['result'],
 				$results['options']['http_code'], $results['error'],
 				$results['options']['total_time'], $results['options']['namelookup_time'],
 				$results['options']['connect_time'], $results['options']['redirect_time'],
 				$results['options']['redirect_count'], $results['options']['size_download'],
-				$results['options']['speed_download']
+				$results['options']['speed_download'], $search[$results['search_result']]
 			)
 		);
 
 		if ($sendemail) {
 			plugin_webseer_debug('Time to send email to admins', $url);
 
-			if (plugin_webseer_amimaster()) {
-				if ($url['notify_format'] == WEBSEER_FORMAT_PLAIN) {
-					plugin_webseer_get_users($results, $url, 'text');
-				} else {
-					plugin_webseer_get_users($results, $url, '');
-				}
+			if ($url['notify_format'] == WEBSEER_FORMAT_PLAIN) {
+				plugin_webseer_get_users($results, $url, 'text');
+			} else {
+				plugin_webseer_get_users($results, $url, '');
 			}
+		
 		}
 	} else {
 		plugin_webseer_debug('Not checking for trigger', $url);
@@ -235,12 +248,13 @@ if ($url['url'] != '') {
 	plugin_webseer_debug('Updating Statistics', $url);
 
 	db_execute_prepared('UPDATE plugin_webseer_urls
-		SET result = ?, triggered = ?, failures = ?,
+		SET result = ?, search_result = ?, triggered = ?, failures = ?,
 		lastcheck = ?, error = ?, http_code = ?, total_time = ?, namelookup_time = ?,
 		connect_time = ?, redirect_time = ?, redirect_count = ?, speed_download = ?,
 		size_download = ?, debug = ?
 		WHERE id = ?',
-		array($results['result'], $url['triggered'], $url['failures'], date('Y-m-d H:i:s', $results['time']),
+		array($results['result'], $results['search_result'], $url['triggered'], $url['failures'], 
+			date('Y-m-d H:i:s', $results['time']),
 			$results['error'], $results['options']['http_code'], $results['options']['total_time'],
 			$results['options']['namelookup_time'], $results['options']['connect_time'],
 			$results['options']['redirect_time'], $results['options']['redirect_count'],
@@ -248,7 +262,6 @@ if ($url['url'] != '') {
 			$results['data'], $url['id']
 		)
 	);
-
 }
 
 /* register process end */
@@ -277,7 +290,7 @@ function register_shutdown($url_id) {
 }
 
 function plugin_webseer_get_users($results, $url, $type) {
-	global $httperrors;
+	global $httperrors, $search;
 
 	$users = '';
 	if ($url['notify_accounts'] != '') {
@@ -313,57 +326,89 @@ function plugin_webseer_get_users($results, $url, $type) {
 	}
 
 	if ($type == 'text') {
-		if ($results['result'] == 0) {
-			$subject = 'Site Down: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
-		} else {
-			$subject = 'Site Recovered: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
-		}
+		if ($url['status_change']) {
+			if ($results['result'] == 0) {
+				$message[0]['subject'] = 'Site Down: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+			} else {
+				$smessage[0]['subject'] = 'Site Recovered: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+			}
 
-		$message  = 'Site '        . ($results['result'] == 0 ? 'Down: ' : 'Recovering: ') . ($url['display_name'] != '' ? $url['display_name']:'') . "\n";
-		$message .= 'URL: '        . $url['url'] . "\n";
-		$message .= 'Error: '      . $results['error'] . "\n";
-		$message .= 'Total Time: ' . $results['options']['total_time'] . "\n";
+			$message[0]['text']  = 'Site '        . ($results['result'] == 0 ? 'Down: ' : 'Recovering: ') . ($url['display_name'] != '' ? $url['display_name']:'') . "\n";
+			$message[0]['text'] .= 'URL: '        . $url['url'] . "\n";
+			$message[0]['text'] .= 'Error: '      . $results['error'] . "\n";
+			$message[0]['text'] .= 'Total Time: ' . $results['options']['total_time'] . "\n";
+		}
+		
+		// search string notification
+		if ($url['search_result'] != $results['search_result']) {
+			$message[1]['subject'] = 'Changed search string : ' . $url['url'];
+			$message[1]['text']  = 'Site '        . $url['display_name'] ."\n";
+			$message[1]['text'] .= 'URL: '        . $url['url'] . "\n";
+			$message[1]['text'] .= 'Date: '       . date('F j, Y - h:i:s', $results['time']) . "\n";
+
+			$message[1]['text'] .= 'Previous search: ' . $search[$url['search_result']] . "\n";
+			$message[1]['text'] .= 'Actual search: '   . $search[$results['search_result']] . "\n";
+		}
 	} else {
-		if ($results['result'] == 0) {
-			$subject = 'Site Down: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
-		} else {
-			$subject = 'Site Recovered: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+		if ($url['status_change']) {
+
+			if ($results['result'] == 0) {
+				$message['0']['subject'] = 'Site Down: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+			} else {
+				$message['0']['subject'] = 'Site Recovered: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+			}
+
+			$message[0]['text']  = '<h3>' . $message[0]['subject'] . "</h3>\n";
+			$message[0]['text'] .= '<hr>';
+
+			$message[0]['text'] .= "<table>\n";
+			$message[0]['text'] .= "<tr><td>URL:</td><td>"       . $url['url'] . "</td></tr>\n";
+			$message[0]['text'] .= "<tr><td>Status:</td><td>"    . ($results['result'] == 0 ? 'Down' : 'Recovering') . "</td></tr>\n";
+			$message[0]['text'] .= "<tr><td>Date:</td><td>"      . date('F j, Y - h:i:s', $results['time']) . "</td></tr>\n";
+			$message[0]['text'] .= "<tr><td>HTTP Code:</td><td>" . $httperrors[$results['options']['http_code']] . "</td></tr>\n";
+
+			if ($results['error'] != '') {
+				$message[0]['text'] .= "<tr><td>Error:</td><td>" . $results['error'] . "</td></tr>\n";
+			}
+
+			$message[0]['text'] .= "</table>\n";
+			$message[0]['text'] .= "<hr>";
+
+			if ($results['error'] > 0) {
+				$message[0]['text'] .= "<table>\n";
+				$message[0]['text'] .= "<tr><td>Total Time:</td><td> "     . round($results['options']['total_time'],4)      . "</td></tr>\n";
+				$message[0]['text'] .= "<tr><td>Connect Time:</td><td> "   . round($results['options']['connect_time'],4)    . "</td></tr>\n";
+				$message[0]['text'] .= "<tr><td>DNS Time:</td><td> "       . round($results['options']['namelookup_time'],4) . "</td></tr>\n";
+				$message[0]['text'] .= "<tr><td>Redirect Time:</td><td> "  . round($results['options']['redirect_time'],4)   . "</td></tr>\n";
+				$message[0]['text'] .= "<tr><td>Redirect Count:</td><td> " . round($results['options']['redirect_count'],4)  . "</td></tr>\n";
+				$message[0]['text'] .= "<tr><td>Download Size:</td><td> "  . round($results['options']['size_download'],4)   . " Bytes" . "</td></tr>\n";
+				$message[0]['text'] .= "<tr><td>Download Speed:</td><td> " . round($results['options']['speed_download'],4)  . " Bps" . "</td></tr>\n";
+				$message[0]['text'] .= "</table>\n";
+				$message[0]['text'] .= "<hr>";
+			}
 		}
+		
+		// search string notification
+		if ($url['search_result'] != $results['search_result']) {
+			$message[1]['subject'] = 'Changed search string : ' . $url['url'];
 
-		$message  = '<h3>' . $subject . "</h3>\n";
-		$message .= '<hr>';
+			$message[1]['text']  = '<h3>' . $message[1]['subject'] . "</h3>\n";
+			$message[1]['text'] .= '<hr>';
 
-		$message .= "<table>\n";
-		$message .= "<tr><td>URL:</td><td>"       . $url['url'] . "</td></tr>\n";
-		$message .= "<tr><td>Status:</td><td>"    . ($results['result'] == 0 ? 'Down' : 'Recovering') . "</td></tr>\n";
-		$message .= "<tr><td>Date:</td><td>"      . date('F j, Y - h:i:s', $results['time']) . "</td></tr>\n";
-		$message .= "<tr><td>HTTP Code:</td><td>" . $httperrors[$results['options']['http_code']] . "</td></tr>\n";
-
-		if ($results['error'] != '') {
-			$message .= "<tr><td>Error:</td><td>" . $results['error'] . "</td></tr>\n";
-		}
-		$message .= "</table>\n";
-
-		$message .= "<hr>";
-
-		if ($results['error'] > 0) {
-			$message .= "<table>\n";
-			$message .= "<tr><td>Total Time:</td><td> "     . round($results['options']['total_time'],4)      . "</td></tr>\n";
-			$message .= "<tr><td>Connect Time:</td><td> "   . round($results['options']['connect_time'],4)    . "</td></tr>\n";
-			$message .= "<tr><td>DNS Time:</td><td> "       . round($results['options']['namelookup_time'],4) . "</td></tr>\n";
-			$message .= "<tr><td>Redirect Time:</td><td> "  . round($results['options']['redirect_time'],4)   . "</td></tr>\n";
-			$message .= "<tr><td>Redirect Count:</td><td> " . round($results['options']['redirect_count'],4)  . "</td></tr>\n";
-			$message .= "<tr><td>Download Size:</td><td> "  . round($results['options']['size_download'],4)   . " Bytes" . "</td></tr>\n";
-			$message .= "<tr><td>Download Speed:</td><td> " . round($results['options']['speed_download'],4)  . " Bps" . "</td></tr>\n";
-			$message .= "</table>\n";
-
-			$message .= "<hr>";
+			$message[1]['text'] .= "<table>\n";
+			$message[1]['text'] .= "<tr><td>URL:</td><td>"       . $url['url'] . "</td></tr>\n";
+			$message[1]['text'] .= "<tr><td>Date:</td><td>"      . date('F j, Y - h:i:s', $results['time']) . "</td></tr>\n";
+			$message[1]['text'] .= "<tr><td>Previous search:</td><td>" . $search[$url['search_result']] . "</td></tr>\n";
+			$message[1]['text'] .= "<tr><td>Actual search:</td><td>"   . $search[$results['search_result']] . "</td></tr>\n";
 		}
 	}
 
 	$users = explode(',', $to);
-	foreach ($users as $u) {
-		plugin_webseer_send_email($u, $subject, $message);
+	
+	foreach ($message as $m) {
+		foreach ($users as $u) {
+			plugin_webseer_send_email($u, $m['subject'], $m['text']);
+		}
 	}
 }
 

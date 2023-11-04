@@ -27,7 +27,15 @@ include_once(__DIR__ . '/constants.php');
 global	$webseer_actions_proxy, $webseer_actions_url,
 	$webseer_proxy_fields, $webseer_url_fields,
 	$webseer_notify_accounts, $httperrors, $httpcompressions, $webseer_seconds,
-	$webseer_minutes;
+	$webseer_minutes, $search;
+
+$search = array(
+	-1 => 'Search not performed',
+	 0 => 'Search string not found',
+	 1 => 'Search string found',
+	 2 => 'Maint search string found',
+	 3 => 'Failure search string found'
+);
 
 $httperrors = array(
 	  0 => 'Unable to Connect',
