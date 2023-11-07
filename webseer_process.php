@@ -45,6 +45,7 @@ global $debug;
 $debug  = false;
 $url_id = 0;
 $poller_interval = read_config_option('poller_interval');
+$cert_expiry_days = 1000; //!!! na deset
 
 if (cacti_sizeof($parms)) {
 	foreach($parms as $parameter) {
@@ -126,6 +127,7 @@ if ($url['url'] != '') {
 
 		switch ($url['type']) {
 			case 'http':
+//!!!!resit cert_info
 			case 'https':
 				$cc = new cURL(true, 'cookies.txt', $url['compression'], '', $url);
 
@@ -178,17 +180,23 @@ if ($url['url'] != '') {
 
 	plugin_webseer_debug('failures:'. $url['failures'] . ', triggered:' . $url['triggered'], $url);
 
+	if ($results['options']['certinfo'][0]) {
+		$parsed = date_parse_from_format("M j H:i:s Y e", $results['options']['certinfo'][0]['Expire date']);
+		$exp = mktime($parsed['hour'], $parsed['minute'], $parsed['second'], $parsed['month'], $parsed['day'], $parsed['year']);
+		$url['days'] = round(($exp - time()) / 86400);
+	}
+
 plugin_webseer_debug('111-url[result]' . $url['result'], $url);
 plugin_webseer_debug('111-results[result]' . $results['result'], $url);
 plugin_webseer_debug('111-url[search_result]' . $url['search_result'], $url);
 plugin_webseer_debug('111-results[search_result]' . $results['search_result'], $url);
 
-//!!!! pomoc, abych necekal
+//!!!! pomoc, abych necekal, pak otestovat a smazat
 $url['downtrigger'] = 0;
 
 	$url['status_change'] = false;
 
-	if ($url['result'] != $results['result'] || $url['search_result'] != $results['search_result']) {
+	if ($url['result'] != $results['result'] || $url['search_result'] != $results['search_result'] || ($url['certexpirenotify'] && $url['days'] < $cert_expiry_days)) {
 
 		plugin_webseer_debug('Checking for trigger', $url);
 
@@ -216,12 +224,26 @@ $url['downtrigger'] = 0;
 			$sendemail = true;
 		}
 
+		if ($url['certexpirenotify'] && $url['days'] < $cert_expiry_days) {
+
+			// notify once per day
+			$new_notify = db_fetch_cell_prepared('SELECT UNIX_TIMESTAMP(DATE_ADD(last_exp_notify, INTERVAL 1 DAY))
+				FROM plugin_webseer_urls
+				WHERE id = ?',
+				array($url['id']));
+
+			if ($new_notify < time()) {
+
+				$sendemail = true;
+			}
+		}
+
 		db_execute_prepared("INSERT INTO plugin_webseer_urls_log
-			(url_id, lastcheck, compression, result, http_code, error,
+			(url_id, lastcheck, cert_expire, compression, result, http_code, error,
 			total_time, namelookup_time, connect_time, redirect_time,
 			redirect_count, size_download, speed_download, search_result)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-			array($url['id'], date('Y-m-d H:i:s', $results['time']),
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			array($url['id'], date('Y-m-d H:i:s', $results['time']), date('Y-m-d H:i:s', $exp),
 				$results['options']['compression'], $results['result'],
 				$results['options']['http_code'], $results['error'],
 				$results['options']['total_time'], $results['options']['namelookup_time'],
@@ -249,7 +271,7 @@ $url['downtrigger'] = 0;
 
 	db_execute_prepared('UPDATE plugin_webseer_urls
 		SET result = ?, search_result = ?, triggered = ?, failures = ?,
-		lastcheck = ?, error = ?, http_code = ?, total_time = ?, namelookup_time = ?,
+		lastcheck = ?, last_exp_notify = now(), error = ?, http_code = ?, total_time = ?, namelookup_time = ?,
 		connect_time = ?, redirect_time = ?, redirect_count = ?, speed_download = ?,
 		size_download = ?, debug = ?
 		WHERE id = ?',
@@ -337,6 +359,10 @@ function plugin_webseer_get_users($results, $url, $type) {
 			$message[0]['text'] .= 'URL: '        . $url['url'] . "\n";
 			$message[0]['text'] .= 'Error: '      . $results['error'] . "\n";
 			$message[0]['text'] .= 'Total Time: ' . $results['options']['total_time'] . "\n";
+
+			if ($url['certexpirenotify']) {
+				$message[0]['text'] .= 'Certificate expire in ' . $url['days'] . ' days' . "\n";
+			}
 		}
 		
 		// search string notification
@@ -346,9 +372,21 @@ function plugin_webseer_get_users($results, $url, $type) {
 			$message[1]['text'] .= 'URL: '        . $url['url'] . "\n";
 			$message[1]['text'] .= 'Date: '       . date('F j, Y - h:i:s', $results['time']) . "\n";
 
+			if ($url['certexpirenotify']) {
+				$message[1]['text'] .= 'Certificate expire in ' . $url['days'] . ' days' . "\n";
+			}
+
 			$message[1]['text'] .= 'Previous search: ' . $search[$url['search_result']] . "\n";
 			$message[1]['text'] .= 'Actual search: '   . $search[$results['search_result']] . "\n";
 		}
+		
+		if ($url['certexpirenotify'] && $url['days'] < $cert_expiry_days) {
+			$message[2]['subject'] = 'Certificate will expired in less than 10 days: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+			$message[2]['text']  = 'Site '        . $url['display_name'] ."\n";
+			$message[2]['text'] .= 'URL: '        . $url['url'] . "\n";
+			$message[2]['text'] .= 'Date: '       . date('F j, Y - h:i:s', $results['time']) . "\n";
+		}
+
 	} else {
 		if ($url['status_change']) {
 
@@ -365,7 +403,13 @@ function plugin_webseer_get_users($results, $url, $type) {
 			$message[0]['text'] .= "<tr><td>URL:</td><td>"       . $url['url'] . "</td></tr>\n";
 			$message[0]['text'] .= "<tr><td>Status:</td><td>"    . ($results['result'] == 0 ? 'Down' : 'Recovering') . "</td></tr>\n";
 			$message[0]['text'] .= "<tr><td>Date:</td><td>"      . date('F j, Y - h:i:s', $results['time']) . "</td></tr>\n";
+
+			if ($url['certexpirenotify']) {
+				$message[0]['text'] .= "<tr><td>Certificate expire in: </td><td> " . $url['days'] . ' days' . "</td></tr>\n";
+			}
+
 			$message[0]['text'] .= "<tr><td>HTTP Code:</td><td>" . $httperrors[$results['options']['http_code']] . "</td></tr>\n";
+
 
 			if ($results['error'] != '') {
 				$message[0]['text'] .= "<tr><td>Error:</td><td>" . $results['error'] . "</td></tr>\n";
@@ -398,8 +442,26 @@ function plugin_webseer_get_users($results, $url, $type) {
 			$message[1]['text'] .= "<table>\n";
 			$message[1]['text'] .= "<tr><td>URL:</td><td>"       . $url['url'] . "</td></tr>\n";
 			$message[1]['text'] .= "<tr><td>Date:</td><td>"      . date('F j, Y - h:i:s', $results['time']) . "</td></tr>\n";
+
+			if ($url['certexpirenotify']) {
+				$message[1]['text'] .= "<tr><td>Certificate expire in: </td><td> " . $url['days'] . ' days' . "</td></tr>\n";
+			}
+
 			$message[1]['text'] .= "<tr><td>Previous search:</td><td>" . $search[$url['search_result']] . "</td></tr>\n";
 			$message[1]['text'] .= "<tr><td>Actual search:</td><td>"   . $search[$results['search_result']] . "</td></tr>\n";
+		}
+
+		if ($url['certexpirenotify'] && $url['days'] < $cert_expiry_days) {
+			$message[2]['subject'] = 'Certificate will expired in less than 10 days: ' . ($url['display_name'] != '' ? $url['display_name'] : $url['url']);
+			$message[2]['text']  = '<h3>' . $message[2]['subject'] . "</h3>\n";
+			$message[2]['text'] .= '<hr>';
+
+			$message[2]['text'] .= "<table>\n";
+			$message[2]['text'] .= "<tr><td>URL:</td><td>"       . $url['url'] . "</td></tr>\n";
+			$message[2]['text'] .= "<tr><td>Date:</td><td>"      . date('F j, Y - h:i:s', $results['time']) . "</td></tr>\n";
+
+			$message[2]['text'] .= "<tr><td>Certificate expire in: </td><td> " . $url['days'] . ' days' . "</td></tr>\n";
+			$message[2]['text'] .= "</table>\n";
 		}
 	}
 

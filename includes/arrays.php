@@ -294,6 +294,13 @@ $webseer_url_fields = array(
 		'value' => '|arg1:checkcert|',
 		'default' => '',
 	),
+	'certexpirenotify' => array(
+		'method' => 'checkbox',
+		'friendly_name' => __('Check and notify Certificate expiration', 'webseer'),
+		'description' => __('If using SSL, check this box if you want to check the certificate expiration. You will be warn when last 10 days left.', 'webseer'),
+		'value' => '|arg1:certexpirenotify|',
+		'default' => '',
+	),
 	'timings_spacer' => array(
 		'method' => 'spacer',
 		'friendly_name' => __('Notification Timing', 'webseer')

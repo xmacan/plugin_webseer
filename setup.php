@@ -115,10 +115,15 @@ function plugin_webseer_upgrade() {
 			db_execute('ALTER TABLE `plugin_webseer_urls`
 				ADD COLUMN search_result int(3) NOT NULL default "-1" AFTER result');
 			db_execute('ALTER TABLE `plugin_webseer_urls_log`
-				ADD COLUMN search_result varchar(250) NOT NULL default "1" AFTER result');
-
+				ADD COLUMN search_result varchar(250) NOT NULL default "" AFTER result');
+			db_execute('ALTER TABLE `plugin_webseer_urls`
+				ADD COLUMN certexpirenotify char(2) NOT NULL default "on" AFTER checkcert');
+			db_execute('ALTER TABLE `plugin_webseer_urls`
+				ADD COLUMN last_exp_notify timestamp NOT NULL default "0000-00-00" AFTER lastcheck');
+			db_execute('ALTER TABLE `plugin_webseer_urls_log`
+				ADD COLUMN cert_expire timestamp NOT NULL default "0000-00-00" AFTER lastcheck');
 		}
-		
+
 		if (!db_column_exists('plugin_webseer_urls', 'notify_list')) {
 			db_execute('ALTER TABLE plugin_webseer_urls ADD COLUMN notify_list int(10) unsigned NOT NULL default "0" AFTER checkcert');
 		}
@@ -167,6 +172,7 @@ function plugin_webseer_version() {
 
 function plugin_webseer_setup_table() {
 
+
 	db_execute("CREATE TABLE IF NOT EXISTS `plugin_webseer_urls` (
 		`id` int(11) unsigned NOT NULL auto_increment,
 		`poller_id` int(11) unsigned NOT NULL default '1',
@@ -181,6 +187,7 @@ function plugin_webseer_setup_table() {
 		`requiresauth` char(2) NOT NULL default '',
 		`proxy_server` int(11) unsigned NOT NULL default '0',
 		`checkcert` char(2) NOT NULL default 'on',
+		`certexpirenotify` char(2) NOT NULL default 'on',
 		`notify_list` int(10) unsigned NOT NULL default '0',
 		`notify_accounts` varchar(256) NOT NULL,
 		`notify_extra` varchar(256) NOT NULL,
@@ -192,6 +199,7 @@ function plugin_webseer_setup_table() {
 		`failures` int(11) unsigned NOT NULL default '0',
 		`triggered` int(11) unsigned NOT NULL default '0',
 		`lastcheck` timestamp NOT NULL default '0000-00-00',
+		`last_exp_notify` timestamp NOT NULL default '0000-00-00',
 		`compression` int(3) unsigned NOT NULL default '0',
 		`error` varchar(256) default NULL,
 		`http_code` int(11) unsigned default NULL,
@@ -215,9 +223,10 @@ function plugin_webseer_setup_table() {
 		`id` int(11) unsigned NOT NULL auto_increment,
 		`url_id` int(11) unsigned NOT NULL default '0',
 		`lastcheck` timestamp NOT NULL default '0000-00-00',
+		`cert_expire` timestamp NOT NULL default '0000-00-00',
 		`compression` int(3) unsigned NOT NULL default '0',
 		`result` int(11) unsigned NOT NULL default '0',
-		`search_result` varchar(250) NOT NULL default '1',
+		`search_result` varchar(250) NOT NULL default '',
 		`http_code` int(11) unsigned default NULL,
 		`error` varchar(256) default NULL,
 		`total_time` double default NULL,

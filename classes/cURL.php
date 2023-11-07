@@ -194,12 +194,23 @@ class cURL {
 				CURLOPT_SSL_VERIFYPEER => FALSE,
 				CURLOPT_SSL_VERIFYHOST => FALSE,
 			);
-		} else {
-			$cert_opts = array();
+		} else { // for sure, it seems that it isn't enabled by default now
+			$cert_opts = array(
+				CURLOPT_SSL_VERIFYPEER => TRUE,
+				CURLOPT_SSL_VERIFYHOST => 2,
+			);
+		}
+
+		$cert_info = array();
+		if ($this->host['certexpirenotify'] != '') {
+			$cert_info = array (
+				CURLOPT_CERTINFO       => true,
+			);
 		}
 
 		$options += $proxy_opts;
 		$options += $cert_opts;
+		$options += $cert_info;
 
 		$this->debug('cURL options: ' . clean_up_lines(var_export($options, true)));
 		curl_setopt_array($process,$options);
@@ -210,6 +221,8 @@ class cURL {
 
 		$this->results['options'] = curl_getinfo($process);
 		$this->results['options']['compression'] = $this->compression;
+
+// tady jsou i veci o certu $this->debug(var_dump($this->results['options']));
 
 		$errnum = curl_errno($process);
 
@@ -232,8 +245,6 @@ class cURL {
 		$this->results['search_result'] = -1;
 
 		if ($this->results['options']['http_code'] == 404) {
-//			$this->debug('JDU 404!!!');
-
 			$this->results['result'] = 0;
 			return $this->results;
 		}

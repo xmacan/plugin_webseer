@@ -281,6 +281,12 @@ function form_save() {
 		$save['checkcert'] = '';
 	}
 
+	if (isset_request_var('certexpirenotify')) {
+		$save['certexpirenotify'] = 'on';
+	} else {
+		$save['certexpirenotify'] = '';
+	}
+
 	if (isset_request_var('notify_accounts')) {
 		if (is_array(get_nfilter_request_var('notify_accounts'))) {
 			foreach (get_nfilter_request_var('notify_accounts') as $na) {
