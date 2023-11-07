@@ -127,8 +127,11 @@ if ($url['url'] != '') {
 
 		switch ($url['type']) {
 			case 'http':
-//!!!!resit cert_info
 			case 'https':
+				if (strtolower(substr($url['url'],0,5)) = 'http:') {
+					'certexpirenotify'] != ''
+				}
+				
 				$cc = new cURL(true, 'cookies.txt', $url['compression'], '', $url);
 
 				if ($url['proxy_server'] > 0) {

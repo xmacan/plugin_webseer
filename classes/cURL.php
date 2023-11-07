@@ -173,7 +173,7 @@ class cURL {
 				$this->proxy_https_port = $port_http;
 			}
 
-			$is_https = (substr(strtolower($url), 0, 5) == 'https');
+			$is_https = substr(strtolower($url), 0, 5) == 'https' ? true:false;
 
 			$proxy_opts = array(
 				CURLOPT_UNRESTRICTED_AUTH => true,
@@ -202,7 +202,7 @@ class cURL {
 		}
 
 		$cert_info = array();
-		if ($this->host['certexpirenotify'] != '') {
+		if ($this->host['certexpirenotify'] != '' && $is_https) {
 			$cert_info = array (
 				CURLOPT_CERTINFO       => true,
 			);

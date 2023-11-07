@@ -364,6 +364,9 @@ function webseer_edit_url() {
 
 	html_start_box($header_label, '100%', '', '3', 'center', '');
 
+	// it is mail only
+	unset($webseer_url_fields['subtype']);
+
 	draw_edit_form(
 		array(
 			'config' => array('form_name' => 'chk'),

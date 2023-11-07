@@ -27,7 +27,7 @@ include_once(__DIR__ . '/constants.php');
 global	$webseer_actions_proxy, $webseer_actions_url,
 	$webseer_proxy_fields, $webseer_url_fields,
 	$webseer_notify_accounts, $httperrors, $httpcompressions, $webseer_seconds,
-	$webseer_minutes, $search;
+	$webseer_minutes, $search, $mail_serv;
 
 $search = array(
 	-1 => 'Search not performed',
@@ -36,6 +36,14 @@ $search = array(
 	 2 => 'Maint search string found',
 	 3 => 'Failure search string found'
 );
+
+//!! tady pak dodelat
+$mail_serv = array(
+	'smtp' => 'SMTP without STARTTLS, port 25',
+	'imap' => 'IMAP without STARTTLS, port 143',
+	'pop3' => 'POP3 without STARTTLS, port 110',
+);
+
 
 $httperrors = array(
 	  0 => 'Unable to Connect',
@@ -259,6 +267,15 @@ $webseer_url_fields = array(
 		'max_length' => '40',
 		'size' => '30'
 	),
+	'subtype' => array(
+		'friendly_name' => __('Type of mail service', 'webseer'),
+		'method' => 'drop_array',
+		'array' => $mail_serv,
+		'default' => 'smtp',
+		'description' => __('What type of email service?', 'webseer'),
+		'value' => '|arg1:subtype|',
+	),
+
 	'proxy_server' => array(
 		'method' => 'drop_sql',
 		'friendly_name' => __('Proxy Server', 'webseer'),

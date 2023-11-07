@@ -265,16 +265,19 @@ function form_save() {
 		$save['enabled'] = '';
 	}
 
-	if (isset_request_var('requiresauth')) {
-		$save['requiresauth'] = 'on';
-	} else {
-		$save['requiresauth'] = '';
-	}
-
 	if (isset_request_var('checkcert')) {
 		$save['checkcert'] = 'on';
 	} else {
 		$save['checkcert'] = '';
+	}
+
+	if (isset_request_var('subtype')) {
+		if (in_array(get_nfilter_request_var('subtype'), $mail_serv)) {
+			$save['subtype'] = get_nfilter_request_var('subtype');
+		}
+		else {
+			$save['subtype'] = array_key_first($mail_serv);
+		}
 	}
 
 	if (isset_request_var('notify_accounts')) {
@@ -290,14 +293,12 @@ function form_save() {
 		$save['notify_accounts'] = '';
 	}
 
-	$save['proxy_server']    = get_nfilter_request_var('proxy_server');
 	$save['display_name']    = get_nfilter_request_var('display_name');
 	$save['url']             = get_nfilter_request_var('url');
 	$save['ip']              = get_nfilter_request_var('ip');
 	$save['search']          = get_nfilter_request_var('search');
 	$save['search_maint']    = get_nfilter_request_var('search_maint');
 	$save['search_failed']   = get_nfilter_request_var('search_failed');
-	$save['compression']     = get_nfilter_request_var('compression');
 	$save['notify_list']     = get_nfilter_request_var('notify_list');
 	$save['notify_extra']    = get_nfilter_request_var('notify_extra');
 	$save['downtrigger']     = get_filter_request_var('downtrigger');
@@ -353,6 +354,11 @@ function webseer_edit_url() {
 	form_start('webseer_mail.php');
 
 	html_start_box($header_label, '100%', '', '3', 'center', '');
+
+
+	unset($webseer_url_fields['proxy_server']);
+	unset($webseer_url_fields['compression']);
+	unset($webseer_url_fields['requiresauth']);
 
 	draw_edit_form(
 		array(
@@ -431,6 +437,9 @@ function webseer_edit_url() {
 	</script>
 	<?php
 }
+
+// !! tady jsem skoncil
+
 
 /**
  *  This is a generic funtion for this page that makes sure that

@@ -122,6 +122,10 @@ function plugin_webseer_upgrade() {
 				ADD COLUMN last_exp_notify timestamp NOT NULL default "0000-00-00" AFTER lastcheck');
 			db_execute('ALTER TABLE `plugin_webseer_urls_log`
 				ADD COLUMN cert_expire timestamp NOT NULL default "0000-00-00" AFTER lastcheck');
+
+			db_execute('ALTER TABLE `plugin_webseer_urls`
+				ADD COLUMN subtype 'type' => "enum('IMAP','POP3','SMTP')", NOT NULL default "SMTP" AFTER type');
+
 		}
 
 		if (!db_column_exists('plugin_webseer_urls', 'notify_list')) {
@@ -178,6 +182,7 @@ function plugin_webseer_setup_table() {
 		`poller_id` int(11) unsigned NOT NULL default '1',
 		`enabled` char(2) NOT NULL default 'on',
 		`type` varchar(32) NOT NULL default 'http',
+		`subtype` enum('IMAP','POP3','SMTP) NOT NULL default 'SMTP',
 		`display_name` varchar(64) NOT NULL default '',
 		`url` varchar(256) NOT NULL,
 		`ip` varchar(120) NOT NULL default '',
