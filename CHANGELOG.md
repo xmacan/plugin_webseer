@@ -1,5 +1,19 @@
 # ChangeLog
 
+--- 3.3 ---
+
+* feature: Add certificate expiry check
+
+* feature: Add email services test
+
+* issue: Notify for search text
+
+* issue: Fix Check certificate
+
+* issue: Remove old code for remote servers
+
+* issue#56 Fix sending email notification
+
 --- 3.2 ---
 
 * issue: Correct issue with enable/disable service checks and servers

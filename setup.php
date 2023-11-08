@@ -112,20 +112,22 @@ function plugin_webseer_upgrade() {
 		if (version_compare($old, '3.4', '<')) {
 			db_execute('DROP TABLE plugin_webseer_servers');
 			db_execute('DROP TABLE plugin_webseer_servers_log');
+
 			db_execute('ALTER TABLE `plugin_webseer_urls`
 				ADD COLUMN search_result int(3) NOT NULL default "-1" AFTER result');
-			db_execute('ALTER TABLE `plugin_webseer_urls_log`
-				ADD COLUMN search_result varchar(250) NOT NULL default "" AFTER result');
 			db_execute('ALTER TABLE `plugin_webseer_urls`
 				ADD COLUMN certexpirenotify char(2) NOT NULL default "on" AFTER checkcert');
 			db_execute('ALTER TABLE `plugin_webseer_urls`
 				ADD COLUMN last_exp_notify timestamp NOT NULL default "0000-00-00" AFTER lastcheck');
+			db_execute('ALTER TABLE `plugin_webseer_urls`
+				ADD COLUMN subtype enum("IMAP","POP3","SMTP") NOT NULL default "SMTP" AFTER type');
+			db_execute('ALTER TABLE `plugin_webseer_urls`
+				ADD COLUMN notes text default NULL AFTER notify_format');
+
+			db_execute('ALTER TABLE `plugin_webseer_urls_log`
+				ADD COLUMN search_result varchar(250) NOT NULL default "" AFTER result');
 			db_execute('ALTER TABLE `plugin_webseer_urls_log`
 				ADD COLUMN cert_expire timestamp NOT NULL default "0000-00-00" AFTER lastcheck');
-
-			db_execute('ALTER TABLE `plugin_webseer_urls`
-				ADD COLUMN subtype 'type' => "enum('IMAP','POP3','SMTP')", NOT NULL default "SMTP" AFTER type');
-
 		}
 
 		if (!db_column_exists('plugin_webseer_urls', 'notify_list')) {
@@ -197,6 +199,7 @@ function plugin_webseer_setup_table() {
 		`notify_accounts` varchar(256) NOT NULL,
 		`notify_extra` varchar(256) NOT NULL,
 		`notify_format` int(3) unsigned NOT NULL default '0',
+		`notes` text default NULL,
 		`result` int(3) NOT NULL default '-1',
 		`search_result` int(3) NOT NULL default '-1',
 		`downtrigger` int(11) unsigned NOT NULL default '3',

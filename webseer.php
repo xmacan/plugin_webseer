@@ -310,6 +310,7 @@ function form_save() {
 	$save['compression']     = get_nfilter_request_var('compression');
 	$save['notify_list']     = get_nfilter_request_var('notify_list');
 	$save['notify_extra']    = get_nfilter_request_var('notify_extra');
+	$save['notes']           = get_nfilter_request_var('notes');
 	$save['downtrigger']     = get_filter_request_var('downtrigger');
 	$save['timeout_trigger'] = get_filter_request_var('timeout_trigger');
 
@@ -868,7 +869,7 @@ function list_urls() {
 					<i class='tholdGlyphLog fas fa-exclamation-triangle'></i>
 				</a>
 			</td>";
-
+//!!! tady jeste resit to dns
 			$url = '';
 			if ($row['type'] == 'http') {
 				$url = $row['url'];

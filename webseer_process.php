@@ -366,6 +366,11 @@ function plugin_webseer_get_users($results, $url, $type) {
 			if ($url['certexpirenotify']) {
 				$message[0]['text'] .= 'Certificate expire in ' . $url['days'] . ' days' . "\n";
 			}
+			
+			if (!is_null($url['notes'])) {
+				$message[0]['text'] .= "\nNotes: " . $url['notes'] . "\n";
+			}
+
 		}
 		
 		// search string notification
@@ -381,6 +386,12 @@ function plugin_webseer_get_users($results, $url, $type) {
 
 			$message[1]['text'] .= 'Previous search: ' . $search[$url['search_result']] . "\n";
 			$message[1]['text'] .= 'Actual search: '   . $search[$results['search_result']] . "\n";
+			
+
+			if (!is_null($url['notes'])) {
+				$message[1]['text'] .= "\nNotes: " . $url['notes'] . "\n";
+			}
+
 		}
 		
 		if ($url['certexpirenotify'] && $url['days'] < $cert_expiry_days) {
@@ -388,7 +399,13 @@ function plugin_webseer_get_users($results, $url, $type) {
 			$message[2]['text']  = 'Site '        . $url['display_name'] ."\n";
 			$message[2]['text'] .= 'URL: '        . $url['url'] . "\n";
 			$message[2]['text'] .= 'Date: '       . date('F j, Y - h:i:s', $results['time']) . "\n";
+
+			if (!is_null($url['notes'])) {
+				$message[2]['text'] .= "\nNotes: " . $url['notes'] . "\n";
+			}
+
 		}
+
 
 	} else {
 		if ($url['status_change']) {
@@ -409,6 +426,10 @@ function plugin_webseer_get_users($results, $url, $type) {
 
 			if ($url['certexpirenotify']) {
 				$message[0]['text'] .= "<tr><td>Certificate expire in: </td><td> " . $url['days'] . ' days' . "</td></tr>\n";
+			}
+
+			if (!is_null($url['notes'])) {
+				$message[0]['text'] .= "<tr><td>Notes:</td><td>" . $url['notes'] . "</td></tr>\n";
 			}
 
 			$message[0]['text'] .= "<tr><td>HTTP Code:</td><td>" . $httperrors[$results['options']['http_code']] . "</td></tr>\n";
@@ -452,6 +473,11 @@ function plugin_webseer_get_users($results, $url, $type) {
 
 			$message[1]['text'] .= "<tr><td>Previous search:</td><td>" . $search[$url['search_result']] . "</td></tr>\n";
 			$message[1]['text'] .= "<tr><td>Actual search:</td><td>"   . $search[$results['search_result']] . "</td></tr>\n";
+
+			if (!is_null($url['notes'])) {
+				$message[1]['text'] .= "<tr><td>Notes:</td><td>" . $url['notes'] . "</td></tr>\n";
+			}
+
 		}
 
 		if ($url['certexpirenotify'] && $url['days'] < $cert_expiry_days) {
@@ -465,6 +491,11 @@ function plugin_webseer_get_users($results, $url, $type) {
 
 			$message[2]['text'] .= "<tr><td>Certificate expire in: </td><td> " . $url['days'] . ' days' . "</td></tr>\n";
 			$message[2]['text'] .= "</table>\n";
+
+			if (!is_null($url['notes'])) {
+				$message[2]['text'] .= "<tr><td>Notes:</td><td>" . $url['notes'] . "</td></tr>\n";
+			}
+
 		}
 	}
 

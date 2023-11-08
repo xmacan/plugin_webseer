@@ -261,7 +261,7 @@ $webseer_url_fields = array(
 	),
 	'ip' => array(
 		'method' => 'textbox',
-		'friendly_name' => __('IP Address', 'webseer'),
+		'friendly_name' => __('IP Address or DNS name', 'webseer'),
 		'description' => __('Enter an IP address to connect to.  Leaving blank will use DNS Resolution instead.', 'webseer'),
 		'value' => '|arg1:ip|',
 		'max_length' => '40',
@@ -400,6 +400,15 @@ $webseer_url_fields = array(
 		'description' => __('You may specify here extra Emails to receive alerts for this URL (comma separated)', 'webseer'),
 		'value' => '|arg1:notify_extra|',
 	),
+	'notes' => array(
+		'friendly_name' => __('Notes', 'webseer'),
+		'method' => 'textarea',
+		'textarea_rows' => 3,
+		'textarea_cols' => 50,
+		'description' => __('Notes sent in email', 'webseer'),
+		'value' => '|arg1:notes|',
+	),
+
 	'id' => array(
 		'method' => 'hidden_zero',
 		'value' => '|arg1:id|'
