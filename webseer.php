@@ -82,6 +82,10 @@ case 'history':
 	webseer_show_history();
 
 	break;
+case 'graph':
+	webseer_show_graph();
+
+	break;
 default:
 	list_urls();
 
@@ -669,6 +673,29 @@ function webseer_show_history() {
 	}
 }
 
+
+function webseer_show_graph() {
+
+	webseer_log_request_validation();
+
+	if (isset_request_var('id')) {
+		$id = get_filter_request_var('id');
+	} else {
+		header('Location: webseer.php?header=false');
+		exit;
+	}
+
+	top_header();
+
+	plugin_webseer_graph ($id, 1);
+	plugin_webseer_graph ($id, 6);
+	plugin_webseer_graph ($id, 24);
+	plugin_webseer_graph ($id, 168);
+
+//	webseer_show_tab('webseer.php');
+}
+
+
 function list_urls() {
 	global $webseer_actions_url, $httperrors, $config, $hostid, $refresh, $httpcompressions;
 
@@ -748,7 +775,9 @@ function list_urls() {
 			'search_failed RLIKE \'' . get_request_var('rfilter') . '\'';
 	}
 
-	$result = db_fetch_assoc("SELECT *
+	$result = db_fetch_assoc("SELECT *,
+		(select count(url_id) FROM plugin_webseer_urls_log
+		WHERE url_id=plugin_webseer_urls.id) AS `count`
 		FROM plugin_webseer_urls
 		$sql_where
 		$sql_order
@@ -867,8 +896,18 @@ function list_urls() {
 
 			print "<a class='pic' href='" . html_escape($config['url_path'] . 'plugins/webseer/webseer.php?action=history&id=' . $row['id']) . "' title='" . __esc('View Service Check History', 'webseer') . "'>
 					<i class='tholdGlyphLog fas fa-exclamation-triangle'></i>
-				</a>
-			</td>";
+				</a>";
+
+			if ($row['count'] > 4) {
+				print "<a class='pic' href='" . html_escape($config['url_path'] . 'plugins/webseer/webseer.php?action=graph&id=' . $row['id']) . "' title='" . __esc('View Graph', 'webseer') . "'>
+						<i class='tholdGlyphLog fas fa-chart-area'></i>
+					</a>
+				</td>";
+			} else {
+				print "<i class='tholdGlyphLog fas fa-chart-area'></i>
+				</td>";
+			}
+			
 //!!! tady jeste resit to dns
 			$url = '';
 			if ($row['type'] == 'http') {

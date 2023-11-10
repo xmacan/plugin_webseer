@@ -151,3 +151,93 @@ function plugin_webseer_debug($message='', $host=array()) {
 	}
 }
 
+function plugin_webseer_graph ($id, $interval) {
+	global $config;
+
+	$graph_interval = array (
+		  1 => 'Last hour',
+		  6 => 'Last 6 hours',
+		 24 => 'Last day',
+		168 => 'Last week'
+	);
+
+
+	$result = db_fetch_assoc_prepared("SELECT
+		lastcheck, total_time, namelookup_time, connect_time
+		FROM plugin_webseer_urls_log
+		WHERE url_id = ? AND
+		lastcheck > DATE_SUB(NOW(), INTERVAL ? HOUR)
+		ORDER BY id ", array($id, $interval));
+
+	if (cacti_sizeof($result) < 5) {
+		print "No data\n";
+		return;
+	}
+
+	foreach ($result as $row) {
+		$lastcheck[]            = $row['lastcheck'];
+		$total_time[]      = $row['total_time'];
+		$namelookup_time[] = $row['namelookup_time'];
+		$connect_time[]    = $row['connect_time'];
+	}
+
+//!!! resim zobrazeni grafu
+	$xid = 'x' . substr(md5($graph_interval[$interval]), 0, 7);
+
+	// Start chart attributes
+	$chart = array(
+		'bindto' => "#line_$xid",
+		'size' => array(
+			'height' => 200,
+			'width'=> 400
+		),
+		'point' => array (
+			'r' => 1.5
+		),
+		'data' => array(
+			'type' => 'line',
+			'x'=> 'x',
+			'Format' => '%Y-%m-%d %H:%M:%S'
+		)
+	);
+
+	$columns = array();
+	$axes= array();
+	$axis= array();
+
+	// Add the X Axis first
+	$columns[] = array_merge($lastcheck, $total_time);
+//	$columns[] = array_merge(array('Total time'), $total_time);
+	$columns[] = array_merge(array('Connect time'), $connect_time);
+	$columns[] = array_merge(array('DNS time'), $namelookup_time);
+
+	// Setup the Axis
+	$axis['x'] = array(
+		'type' => 'timeseries',
+		'tick' => array(
+			'format'=> '%H:%M',
+			'culling' => array('max' => 6),
+		)
+	);
+
+	$axis['y'] = array(
+		'tick' => array(
+			'label' => array(
+				'text' => 'Response time in ms',
+			),
+			'show' => true
+		)
+	);
+
+	$chart['data']['columns'] = $columns;
+	$chart['data']['axes']= $axes;
+	$chart['axis']= $axis;
+
+	$chart_data = json_encode($chart);
+	$content  = '<div style="height: 200 px;" id="line_' . $xid. '"></div>';
+	$content .= '<script type="text/javascript">';
+	$content .= 'graphs.line_' . $xid . ' = bb.generate(' . $chart_data . ');';
+	$content .= '</script>';
+
+	echo $content;
+}

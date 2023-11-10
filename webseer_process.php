@@ -46,6 +46,7 @@ $debug  = false;
 $url_id = 0;
 $poller_interval = read_config_option('poller_interval');
 $cert_expiry_days = 1000; //!!! na deset
+$exp = 0;
 
 if (cacti_sizeof($parms)) {
 	foreach($parms as $parameter) {
@@ -116,6 +117,7 @@ if (function_exists('plugin_maint_check_webseer_url')) {
 }
 
 $url['debug_type'] = 'Url';
+$url['days'] = 0;
 register_startup($url_id);
 
 if ($url['url'] != '') {
@@ -128,8 +130,8 @@ if ($url['url'] != '') {
 		switch ($url['type']) {
 			case 'http':
 			case 'https':
-				if (strtolower(substr($url['url'],0,5)) = 'http:') {
-					'certexpirenotify'] != ''
+				if (strtolower(substr($url['url'],0,5)) == 'http:') {
+					$url['certexpirenotify'] = '';
 				}
 				
 				$cc = new cURL(true, 'cookies.txt', $url['compression'], '', $url);
@@ -183,12 +185,15 @@ if ($url['url'] != '') {
 
 	plugin_webseer_debug('failures:'. $url['failures'] . ', triggered:' . $url['triggered'], $url);
 
-	if ($results['options']['certinfo'][0]) {
-		$parsed = date_parse_from_format("M j H:i:s Y e", $results['options']['certinfo'][0]['Expire date']);
-		$exp = mktime($parsed['hour'], $parsed['minute'], $parsed['second'], $parsed['month'], $parsed['day'], $parsed['year']);
-		$url['days'] = round(($exp - time()) / 86400);
+	if ($url['certexpirenotify']) {
+		if ($results['options']['certinfo'][0]) {
+			$parsed = date_parse_from_format("M j H:i:s Y e", $results['options']['certinfo'][0]['Expire date']);
+			$exp = mktime($parsed['hour'], $parsed['minute'], $parsed['second'], $parsed['month'], $parsed['day'], $parsed['year']);
+			$url['days'] = round(($exp - time()) / 86400);
+		}
 	}
 
+//!!
 plugin_webseer_debug('111-url[result]' . $url['result'], $url);
 plugin_webseer_debug('111-results[result]' . $results['result'], $url);
 plugin_webseer_debug('111-url[search_result]' . $url['search_result'], $url);
@@ -241,6 +246,7 @@ $url['downtrigger'] = 0;
 			}
 		}
 
+//!! tady puvodne byla statistika
 		db_execute_prepared("INSERT INTO plugin_webseer_urls_log
 			(url_id, lastcheck, cert_expire, compression, result, http_code, error,
 			total_time, namelookup_time, connect_time, redirect_time,
@@ -287,7 +293,29 @@ $url['downtrigger'] = 0;
 			$results['data'], $url['id']
 		)
 	);
+
+	plugin_webseer_debug('222Updating Statistics', $url);
+
+//!!! sem pridavam statistiku
+/*
+		db_execute_prepared("INSERT INTO plugin_webseer_urls_log
+			(url_id, lastcheck, cert_expire, compression, result, http_code, error,
+			total_time, namelookup_time, connect_time, redirect_time,
+			redirect_count, size_download, speed_download, search_result)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			array($url['id'], date('Y-m-d H:i:s', $results['time']), date('Y-m-d H:i:s', $exp),
+				$results['options']['compression'], $results['result'],
+				$results['options']['http_code'], $results['error'],
+				$results['options']['total_time'], $results['options']['namelookup_time'],
+				$results['options']['connect_time'], $results['options']['redirect_time'],
+				$results['options']['redirect_count'], $results['options']['size_download'],
+				$results['options']['speed_download'], $search[$results['search_result']]
+			)
+		);
+		var_dump(db_error());
+*/
 }
+
 
 /* register process end */
 register_shutdown($url_id);

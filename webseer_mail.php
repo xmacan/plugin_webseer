@@ -728,7 +728,9 @@ function list_urls() {
 			'search_failed RLIKE \'' . get_request_var('rfilter') . '\'';
 	}
 
-	$result = db_fetch_assoc("SELECT *
+	$result = db_fetch_assoc("SELECT id,
+		(select count(url_id) FROM plugin_webseer_urls_log.
+		WHERE url_id=plugin_webseer_urls.id) AS `count`
 		FROM plugin_webseer_urls
 		$sql_where
 		$sql_order
@@ -829,6 +831,16 @@ function list_urls() {
 					<i class='tholdGlyphLog fas fa-exclamation-triangle'></i>
 				</a>
 			</td>";
+
+			if ($row['count'] > 4) {
+				print "<a class='pic' href='" . html_escape($config['url_path'] . 'plugins/webseer/webseer.php?action=graph&id=' . $row['id']) . "' title='" . __esc('View Graph', 'webseer') . "'>
+						<i class='tholdGlyphLog fas fa-chart-area'></i>
+					</a>
+				</td>";
+			} else {
+				print "<i class='tholdGlyphLog fas fa-chart-area'></i>
+				</td>";
+			}
 
 			form_selectable_cell($row['display_name'], $row['id']);
 

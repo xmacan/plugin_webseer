@@ -44,6 +44,14 @@ $mail_serv = array(
 	'pop3' => 'POP3 without STARTTLS, port 110',
 );
 
+/*
+$graph_interval = array (
+	  1 => 'Last hour',
+	  6 => 'Last 6 hours',
+	 24 => 'Last day',
+	168 => 'Last week'
+);
+*/
 
 $httperrors = array(
 	  0 => 'Unable to Connect',

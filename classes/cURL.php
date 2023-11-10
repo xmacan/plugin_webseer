@@ -160,6 +160,8 @@ class cURL {
 		// CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_0,
 		// CURLOPT_SSLVERSION => 3,  // FORCE SSL v3
 
+		$is_https = substr(strtolower($url), 0, 5) == 'https' ? true:false;
+
 		if ($this->proxy_hostname != '') {
 			$port_http = intval($this->proxy_http_port);
 			if ($port_http < 0 || $port_http > 65535) {
@@ -172,8 +174,6 @@ class cURL {
 				$port_https = 443;
 				$this->proxy_https_port = $port_http;
 			}
-
-			$is_https = substr(strtolower($url), 0, 5) == 'https' ? true:false;
 
 			$proxy_opts = array(
 				CURLOPT_UNRESTRICTED_AUTH => true,
